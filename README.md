@@ -23,3 +23,5 @@ Now we can use git push/pull to manage.
 If we pushed the wrong version that still doesn't finish yet, js delete it and push the finished version.
 
 # git 
+
+test
