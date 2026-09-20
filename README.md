@@ -22,6 +22,13 @@ Now we can use git push/pull to manage.
 
 If we pushed the wrong version that still doesn't finish yet, js delete it and push the finished version.
 
-# git 
+# git checkout 
 
-test
+# git diff
+
+# git log (--oneline)
+
+# git reflog 
+
+use this when we used git checkout but js feel going back to some past saving point
+
