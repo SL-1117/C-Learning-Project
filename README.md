@@ -1,6 +1,6 @@
 # C-Learning-Project
 
-2026/9/20 Saturday
+2026/9/19 Saturday
 
 The second day learning C by making a RPG game.
 
