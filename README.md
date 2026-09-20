@@ -19,3 +19,7 @@ So basically never use git init in the same project twice, that's gonna mess the
 We did this bc the branch Day_3 still didn't know which remote repository to push to.
 
 Now we can use git push/pull to manage.
+
+If we pushed the wrong version that still doesn't finish yet, js delete it and push the finished version.
+
+# git 
