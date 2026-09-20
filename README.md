@@ -32,3 +32,46 @@ If we pushed the wrong version that still doesn't finish yet, js delete it and p
 
 use this when we used git checkout but js feel going back to some past saving point
 
+I think I know pretty much abt git
+
+
+
+
+### strcmp and 
+
+# \"ok\" ===> "ok"
+
+it's used to compare two strings
+
+if (strcmp(Player_input, "ok") == 0) 
+{
+    printf("The player entered \"ok\".\n");
+}
+
+
+
+
+### BubbleSort 
+
+it's used to sort the number in ascending order.
+as for why do we use void here is bc that the code js modified the main program,
+it's not seperately generate other outputs.
+and also, we need to define the "total_num" outside the function,
+bc the input "int arr[]" is js a pointer that point to the arr.
+it cannot be used to calculate the number in the arr.
+
+void BubbleSort (int arr[], int total_num)
+{
+    for (int i = 0; i < total_num - 1; i++)
+    {
+        for (int j = 0; i < total_num -1; j++)
+        {
+            if (arr[j] > arr[j + 1])   
+            {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr [j + 1] = temp;
+            } 
+        }
+    }
+}
