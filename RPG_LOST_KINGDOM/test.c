@@ -1,62 +1,31 @@
 #include <stdio.h>
-#include <string.h>
+#include <windows.h>
 
-struct status
-{
-    int age;
-    int salary;
-};
+void Typetext(char message[]);
 
-void BubbleSort(int arr[], int Total_num);
+int main(void) {
 
-int main(void)
-{
+    char message[100] = {"Welcome to the LOST KINGDOM!"};
 
-    struct status Player;
-    struct status Player_2;
+    Typetext("Hello Player!");
+    Sleep(1000);
+    system("cls");
 
-    Player.age = 22;
-    Player_2.age = 30;
+    Typetext(message);
+    Sleep(1000);
 
-    int arr[] =
-        {
-            10,
-            9,
-            928,
-            490,
-            1,
-            0,
-            -100,
-            3,
-            0,
-    };
+    getchar();
 
-    int Total_num = sizeof(arr) / sizeof(arr[0]);
-
-    BubbleSort(arr, Total_num);
-
-    for (int i = 0; i < Total_num; i++)
-    {
-        printf("%d\n", arr[i]);
-    }
-
-    return 0;
 }
 
-void BubbleSort(int arr[], int Total_num)
+void Typetext(char message[])
 {
 
-    for (int i = 0; i < Total_num - 1; i++)
+    for (int i = 0; message[i] != '\0'; i++)
     {
-
-        for (int j = 0; j < Total_num - 1; j++)
-        {
-            if (arr[j] > arr[j + 1])
-            {
-                int temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
-            }
-        }
+        printf("%c", message[i]);
+        fflush(stdout);
+        Sleep(50);
     }
+
 }

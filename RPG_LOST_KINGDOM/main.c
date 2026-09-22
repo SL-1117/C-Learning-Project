@@ -1,7 +1,12 @@
 #include <stdio.h>
 #include <string.h>
+#include <windows.h>
 
-struct status
+#define NOVICE_SWORD 1
+#define FLAME_SWORD 2
+#define DRAGON_SLAYER 3
+
+typedef struct 
 {
     char name[20];
     const char *race;
@@ -11,9 +16,9 @@ struct status
     int gold;
     int atk;
     int def;
-};
+}status;
 
-struct Wolf {
+typedef struct {
     const char *name;
     const char *race;
     int level;
@@ -21,9 +26,9 @@ struct Wolf {
     int mp;
     int atk;
     int def;
-};
+}Wolf;
 
-struct Slime {
+typedef struct {
     const char *name;
     const char *race;
     int level;
@@ -31,9 +36,9 @@ struct Slime {
     int mp;
     int atk;
     int def;
-};
+}Slime;
 
-struct Goblin {
+typedef struct {
     const char *name;
     const char *race;
     int level;
@@ -41,9 +46,9 @@ struct Goblin {
     int mp;
     int atk;
     int def;
-};
+}Goblin;
 
-struct Orc {
+typedef struct {
     const char *name;
     const char *race;
     int level;
@@ -51,12 +56,17 @@ struct Orc {
     int mp;
     int atk;
     int def;
-};
+}Orc;
+
+typedef enum   
+{
+    SUCCESS, FAILIURE, PENDING
+}Connection_Status;
 
 // ===== Functions declaration =====
 
 void Menu(void);
-void Character_Status(struct status player);
+void Character_Status(status player);
 void Inventory(const char *Inventory_items_names[], int Inventory_quantity[], int number_of_items);
 void Shop(const char *Shop_items_names[], const int Shop_items_prices[], int Shop_number_of_items);
 void Battle(void);
@@ -64,6 +74,9 @@ void Explore(void);
 void Settings(void);
 void Save_Load(void);
 void BubbleSort(int Inventory_quantity[], int number_of_items);
+void Fibonacci(int Fibonacci_num, int Fibonacci_arr[]);
+void clearScreen(void);
+void Typetext(const char text[]);
 
 // ===== Main =====
 
@@ -76,10 +89,36 @@ int main()
     int Shop_Choice = 0;
     char Inventory_Choice[] = {};
 
+    // Delay
+    
+
     // Player_Stats
 
-    struct status player = {
+    status player = {
         "Eren", "Human", 100, 100, 1, 2000, 10, 10};
+
+    // ===== Test =====
+    int Player_weapon = 3;
+    char Player_Weapon[20];
+    char Player_location[20];
+    char message[] = {"You entered "};
+    Connection_Status Connection_Status = PENDING; 
+
+    if (Connection_Status == PENDING)
+    {
+        Typetext("Creating your World...\n");
+        Sleep(1000);
+    }
+
+    if (Player_weapon = DRAGON_SLAYER)              
+    {
+        Typetext("The player is hoding the Dragon slayer.\n");
+    }
+
+    strcpy(Player_location, "Dark Forest");
+    strcat(message, Player_location); 
+    Typetext(message);
+    // ===== Test =====
 
     // Inventory_items
 
@@ -100,32 +139,42 @@ int main()
     int Shop_number_of_items = sizeof(Shop_items_prices) / sizeof(Shop_items_prices[0]);
 
     // Battle
-    struct Wolf wolf = {
+    Wolf wolf = {
         "Hokkin", "Wolf", 2, 30, 10, 3, 1
     };
-    struct Slime slime = {
+    Slime slime = {
         "Rimuru", "Slime", 1, 10, 10, 1, 1
     };
-    struct Orc orc = {
+    Orc orc = {
         "Do", "Orc", 5, 50, 10, 20, 10
     };
-    struct Goblin goblin = {
+    Goblin goblin = {
         "Diabulo", "Goblin", 1, 10, 10, 1, 1
     };
+
+    // Fibonacci variables
+    int Fibonacci_num = 20;
+    int Fibonacci_arr[100];
     
 
     // Main Logic
 
-    printf("You woke up from your sleep.\n");
-    printf("Press enter to continue...\n");
-    getchar();
+    Typetext("You woke up from your sleep.\n");
+    Sleep(1000);
+    clearScreen();
 
-    printf("Please enter your name:\n");
+    Typetext("Press enter to continue...\n");
+    getchar();
+    clearScreen();
+    Sleep(1000);
+
+    Typetext("Please enter your name:\n");
     scanf("%19s", player.name);
+    clearScreen();
 
     Menu();
 
-    printf("Choose: ");
+    Typetext("Choose: ");
     scanf("%d", &Menu_Choice);
 
     switch (Menu_Choice)
@@ -237,7 +286,7 @@ void Menu(void)
            "╚══════════════════════════════╝\n");
 }
 
-void Character_Status(struct status player)
+void Character_Status(status player)
 {
     printf("╔══════════════════════════════╗\n"
            "║          Characters          ║\n"
@@ -333,7 +382,7 @@ void BubbleSort(int Inventory_quantity[], int number_of_items)
 
     for (int i = 0; i < number_of_items - 1; i++) 
     {
-        for (int j = 0; j <number_of_items - 1; j++)
+        for (int j = 0; j < number_of_items - 1; j++)
         {
             if (Inventory_quantity[j] > Inventory_quantity[j + 1]) 
             {
@@ -343,6 +392,40 @@ void BubbleSort(int Inventory_quantity[], int number_of_items)
             }
         }
     }
+}
+
+void Fibonacci (int Fibonacci_num, int Fibonacci_arr[]) 
+{
+    if (Fibonacci_num < 1) 
+    {
+        printf("Invalid number.");
+        return;
+    }
+
+    if (Fibonacci_num >= 1) Fibonacci_arr[0] = 1;
+    if (Fibonacci_num >= 2) Fibonacci_arr[1] = 2;
+
+    for (int i = 0; i < Fibonacci_num - 2; i++)
+    {
+        Fibonacci_arr[i + 2] = Fibonacci_arr[i + 1] + Fibonacci_arr[i];
+    }
+
+}
+
+void Typetext(const char text[]) 
+{
+    for (int i = 0; text[i] != '\0'; i++) 
+    {
+        printf("%c", text[i]);
+        fflush(stdout);
+        Sleep(50);
+    }
+    
+}
+
+void clearScreen(void) 
+{
+    system("cls");
 }
 
 // Damn we can use array here?
