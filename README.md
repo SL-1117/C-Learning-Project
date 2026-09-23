@@ -1,8 +1,8 @@
 # C-Learning-Project
 
-2026/9/21 Monday
+2026/9/22 Tuesday
 
-The this is the fourth day I start learning C by making a game.
+The this is the fifth day I start learning C by making a game.
 
 ### How to use typedef of struct
 
