@@ -1,187 +1,145 @@
 # C-Learning-Project
 
-2026/9/22 Tuesday
+2026/9/22 Wednesday
 
-The this is the fifth day I start learning C by making a game.
+The this is the sixth day I start learning C by making a game.
 
-### How to use typedef of struct
+### malloc / calloc / realloc
 
-# And remember to put the quotations at both sides of the string.
+# malloc
 
-typedef struct {
+this is for dynamically allocating the memory. 
+u can allocate the memory that the player actually needs, instead of js hard-coding it.
 
-    const char *name;
-    const char *race;
-    int level;
-    int hp;
-    int mp;
-    int atk;
-    int def;
+what malloc means in the program?
+it's not something like pointer, it's an adrress that stored the memory that has been allocated.
+that's also what it returns.
 
-}Wolf;
+so that's why we use "int *Inventory = malloc(Inventory_size * sizeof(int));"
+bc the pointer points to the address where we stored our value.
+
+char is one byte, int is four bytes.
+so it means "int *Inventroy = malloc(5 * 4 = 20 bytes);"
+
+#include <stdio.h>
+#include <stdlib.h>
 
 int main(void) {
 
-    Wolf Charlie = {
-        "Charlie", "Wolf", 99, 10000, 10000, 1000, 1000
-    };
+    int Inventory_size = 0;
 
-    printf("%d is Charlie's HP.\n", Charlie.hp);
+    printf("How many inventory slots?\n");
+    scanf("%d", &Inventory_size);
 
-}
+    int *Inventory = malloc(Inventory_size * sizeof(int));
 
-### How to use enum and typedef of it
-
-# If we don't put the value for the constant we set, then the first one is gonna start from 0.
-# Remember to put the quotation for the switch logic.
-
-typedef enum {
-
-    SUCCESS = 1, FAILURE = 2, PENDING = 3
-
-}Connection_Status;
-
-int main() {
-
-    Connection_Status Connection_Status = SUCCESS;
-    
-    switch (Connection_Status) 
+    if (Inventory == NULL)
     {
-        case 1:
-            printf("\"Connection successful.\"\n");
-            break;
-
-        case 2:
-            printf("\"Connection falied.\"\n");
-            break;
-
-        case 3:
-            printf("\"Connection is Pending...\".\n");
-            break;
-
-        default:
-            printf("\"Unknown status.\"\n");
-            break;
+        printf("Memory allocation failed.\n");
+        return 1;
     }
+
+    Inventory[0] = 1;
+    Inventory[1] = 2;
+    Inventory[2] = 3;
+
+    printf("%d", Inventory[0]);
+    printf("%d", Inventory[1]);
+    printf("%d", Inventory[2]);
+
+    free(Inventory);
+
+    return 0;
 }
 
-### Fibonacci
 
-void Fibonacci(int num, int Fibonacci_arr[]);
+
+# calloc 
+
+it's used for initializing the values inside the arr we allocated memory for.
+
+so basically when we use 
+"int *Inventory = malloc(Inventory_size * sizeof(int));" 
+we didn't initialize the values inside the pointer.
+we use "int *Inventory = calloc(Inventory_size * sizeof(int));" to do like {0, 0, 0, 0, 0}
+
+and btw I was so confused that why we can use Inventory[0] while we define it as a pointer
+but the chatgpt was basically js told me that we js can.
+
+
+# realloc
+
+it's js used for reallocating the dynamic memory.
+
+Inventory = realloc(Inventory, number * sizeof(int)) 
+but don't js do this, we need some protection mechanism.
+
+int *temp = realloc(Inventory, Inventory_size * sizeof(int));
+
+if (temp == NULL) 
+{
+    printf("Memory allocation failed.\n");
+    return 1;
+}
+
+Invetory = temp;
+
+
+### rand() / srand()
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 int main(void) {
 
-    int Fibonacci_num = 4;
-    int Fibonacci_arr[100];
+    srand(time(NULL));
 
-    Fibonacci(30, Fibonacci_arr);
+    int random = rand() % 10 + 1;
+    int random = rand() % (Max - min + 1) + min;
+
+    printf("%d", random);
 
     return 0;
 
 }
 
-void Fibonacci(int num, int Fibonacci_arr[])
-{
 
-    if (num < 1) {
-        printf("Invalid number.\n");
-        return;
-    }
-    
-    if (num >= 1) Fibonacci_arr[0] = 1;
-    if (num >= 2) Fibonacci_arr[1] = 1;
+### The roadmap of Data Structure(but dis is not for today tho.)
 
-    for (int i = 0; i < num - 2; i++) 
-    {
-        Fibonacci_arr[i + 2] = Fibonacci_arr[i + 1] + Fibonacci[i];
-    }
+                           DATA STRUCTURES
+                                  │
+          ┌───────────────────────┼────────────────────────┐
+          │                       │                        │
+          ▼                       ▼                        ▼
+       LINEAR                HIERARCHICAL              NETWORK
+          │                       │                        │
+    ┌─────┼─────┐           ┌─────┼─────┐                  │
+    │     │     │           │     │     │                  │
+    ▼     ▼     ▼           ▼     ▼     ▼                  ▼
+  Array  List  Stack       Tree   Heap  Trie              Graph
+    │     │     │
+    │     │     └── Queue
+    │     │          │
+    │     │          ├── Circular Queue
+    │     │          └── Priority Queue
+    │     │
+    │     ├── Singly Linked List
+    │     ├── Doubly Linked List
+    │     └── Circular Linked List
+    │
+    └── Dynamic Array
 
-}
 
-### define
-
-#define NOVICE_SWORD 1
-#define FLAME_SWORD 2
-#define DRAGON_SLAYER 3
-
-int main() {
-
-    int weapon = 1;
-
-    if (weapon == DRAGON_SLAYER)
-    {
-        printf("You are holding dragon slayer!");
-    }
-
-    return 0;
-}
-
-### strcmp/  strcpy/  strlen/  strcat
-
-# strcmp, it can compare two different strings.
-# strcpy, it can copy a string to another char[].
-# strlen, it can get the length of a string.
-# strcat, it can connect two strings.
-
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-
-    char Player_Location[100] = {"Dark Forest"};
-
-    char message[100] = {"You entered "};
-    char message_change[100] = {"Dark Forest"};
-
-    if (strcmp(Player_Location, message_change) == 0) 
-    {
-
-        strcat(message, message_change);
-        printf("%s\n", message);
-        printf("You are now at ");
-        strcpy(message, message_change);
-        printf("%s\n", message);
-        printf("And the string len of "%s" is %d\n", message, strlen(message));
-
-    }
-
-}
-
-### how to do the fade in/out on windows
-### how to clean the screen and delay the program.
-
-# so basically when we use \"printf\", we are not just sending something directly.
-# we put the message to the buffer and then wait a proper timing to send them out.
-# and fflush(stdout) means do not wait, js send anything inside the terminal out.
-
-#include <stdio.h>
-#include <windows.h>
-
-void Typetext(char message[]);
-
-int main(void) {
-
-    char message[100] = {"Welcome to the LOST KINGDOM!"};
-
-    Typetext("Hello Player!\n");
-    Sleep(1000);
-    system("cls");
-
-    Typetext(message);
-    Sleep(1000);
-
-    getchar();
-
-}
-
-void Typetext(char message[])
-{
-
-    for (int i = 0; message[i] != '\0'; i++)
-    {
-        printf("%c", message[i]);
-        fflush(stdout);
-        Sleep(50);
-    }
-
-}
+                    OTHER IMPORTANT STRUCTURES
+                              │
+          ┌───────────────────┼───────────────────┐
+          ▼                   ▼                   ▼
+     Hash Table          Disjoint Set         Advanced
+                                               Structures
+          │                   │                   │
+     Hash Function        Union-Find          AVL Tree
+     Collision            DSU                 Red-Black Tree
+     Chaining                                  B-Tree
+     Open Addressing                           Segment Tree
+                                               Fenwick Tree
