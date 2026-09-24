@@ -1,108 +1,45 @@
 # C-Learning-Project
 
-2026/9/22 Wednesday
+2026/9/23 Thursday
 
-The this is the sixth day I start learning C by making a game.
+The this is the seventh day I start learning C by making a game.
 
-### malloc / calloc / realloc
-
-# malloc
-
-this is for dynamically allocating the memory. 
-u can allocate the memory that the player actually needs, instead of js hard-coding it.
-
-what malloc means in the program?
-it's not something like pointer, it's an adrress that stored the memory that has been allocated.
-that's also what it returns.
-
-so that's why we use "int *Inventory = malloc(Inventory_size * sizeof(int));"
-bc the pointer points to the address where we stored our value.
-
-char is one byte, int is four bytes.
-so it means "int *Inventroy = malloc(5 * 4 = 20 bytes);"
-
-#include <stdio.h>
-#include <stdlib.h>
-
-int main(void) {
-
-    int Inventory_size = 0;
-
-    printf("How many inventory slots?\n");
-    scanf("%d", &Inventory_size);
-
-    int *Inventory = malloc(Inventory_size * sizeof(int));
-
-    if (Inventory == NULL)
-    {
-        printf("Memory allocation failed.\n");
-        return 1;
-    }
-
-    Inventory[0] = 1;
-    Inventory[1] = 2;
-    Inventory[2] = 3;
-
-    printf("%d", Inventory[0]);
-    printf("%d", Inventory[1]);
-    printf("%d", Inventory[2]);
-
-    free(Inventory);
-
-    return 0;
-}
+I don't get enough time to learn anything today but I can organize, sort out my thoughts js for making the roadmap better. 
 
 
+### MCU
 
-# calloc 
+Imma put this into my project tmr bc we control the MCU with C, and I realize that I do need to practice it.
+the program controls the MCU has the whole new type of libraries that I've never even seen before.
+and I don't even know how to use those functions properly, so imma practice those programs in this project as part of learning C.
+the main README is gonna be the C only, not for MCU.
+but imma create another folder for MCU and its whole files.
 
-it's used for initializing the values inside the arr we allocated memory for.
+The only basic I know while using MCU is that we need to use:
 
-so basically when we use 
-"int *Inventory = malloc(Inventory_size * sizeof(int));" 
-we didn't initialize the values inside the pointer.
-we use "int *Inventory = calloc(Inventory_size * sizeof(int));" to do like {0, 0, 0, 0, 0}
+Init_GPIO();
+OpenSevenSegment();
+ScanKeyPad();
 
-and btw I was so confused that why we can use Inventory[0] while we define it as a pointer
-but the chatgpt was basically js told me that we js can.
+key = ScanKey();
 
+but I don't know what they r for, what they do.
+that's what imma learn in the three-day long weekend.
 
-# realloc
+I'mma learn everything the course taught us this long weekend.
 
-it's js used for reallocating the dynamic memory.
+### C
 
-Inventory = realloc(Inventory, number * sizeof(int)) 
-but don't js do this, we need some protection mechanism.
+I'mma put these things inside my main program.
+and ofc imma learn them thoroughly before doing that.
 
-int *temp = realloc(Inventory, Inventory_size * sizeof(int));
-
-if (temp == NULL) 
-{
-    printf("Memory allocation failed.\n");
-    return 1;
-}
-
-Invetory = temp;
-
-
-### rand() / srand()
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-
-int main(void) {
-
-    srand(time(NULL));
-
-    int random = rand() % 10 + 1;
-    int random = rand() % (Max - min + 1) + min;
-
-    printf("%d", random);
-
-    return 0;
-
-}
+#define
+enum 
+typedef enum
+Fibonacci sequence
+srand
+malloc / calloc / realloc
+strcmp / strcpy / strlen / strcat
 
 
 ### The roadmap of Data Structure(but dis is not for today tho.)
