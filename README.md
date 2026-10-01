@@ -1,22 +1,38 @@
 # C-Learning-Project
 
-2026/9/29 Wednesday
+2026/10/1 Thursday
 
 This is the thirteenth day I started learning C by making a game.
+It's Thursday tdy, I don't really have time for learning anything new.
+I still learned a bunch of MCU knowledge and didn't even waste any leisure time that I got tho, so I guess it's enough for tdy.
+
+And also for the project I js decide to combine the things that I learned into the main game logic(include the new things I'mma learn on the Full-C-Courses)after figuring out the MCU step by step like the roadmap I made below.
 
 ### C
-Learning the MCU program js took me too long.
-so I can only learn some little knowledge.
-
-
-# pow(1 + rate / timesCompounded, timesCompounded * years)
-we can calculate in the pow function.
-and yea that's it I guess.
+I'm gonna take the things that I learned from MCU into my main RPG project(include the new things I'mma learn on the Full-C-Courses). 
+I think I'm js gonna make something like roadmap tdy after back from camping.
 
 
 ### MCU
-I learn all the things that the teacher taught us I guess.
-but I don't really have time for noting all that.
+Let's summarize all the MCU concepts and organize them so that I can get a proper roadmap about how am I gonna this shxt.
+
+So basically we got five different part that we can control and learn about how to control them seperately.
+
+
+# LED
+
+
+# 7-segment
+
+
+# Keypad
+
+
+# Buzzer
+
+
+# RGB
+
 
 
 ### Fibonacci sequence
