@@ -1,9 +1,9 @@
 # C-Learning-Project
 ### I think I might need to change the name to Engineering Training Project
 
-2026/10/3 Friday
+2026/10/5 Monday
 
-This is the fifteenth day I started learning C by making a game.
+This is the eighteenth day I started learning C by making a game.
 
 
 ### C
@@ -17,6 +17,90 @@ if an assumption is false while the program is still running, assert reports the
 assert(player->hp <= PLAYER_MAX_HP);
 assert(player->mp <= PLAYER_MAX_MP);
 assert(player->level <= PLAYER_MAX_LEVEL);
+
+btw I try to put it in my code
+
+# linked list
+it's a sequence of nodes which are connected by pointers.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typdef struct Item
+{
+  char name[30];
+  int price;
+  int quantity;
+
+  struct Item *next;
+} Item;
+
+struct Player player 
+{
+  char name[20];
+  int hp;
+  int mp;
+  int level;
+  struct Item *inventory;
+};
+
+addItem(struct Player *player, char name[], int price, int quantity)
+{
+  // Create Item
+  struct Item *newItem = malloc(sizeof(struct Item));
+
+  strcpy(newItem->name, name);
+  newItem->price = price;
+  newItem->quantity = quantity;
+
+  // Add item
+  newItem->next = player->inventory;
+  player->inventory = newItem;
+}
+
+int main(void) 
+{
+  struct Player *player;
+
+  player = malloc(sizeof(struct Player));
+  player->inventory = NULL;
+
+  addItem(player, char name[], int price, int quantity);
+
+  struct Item current;
+  struct Item next;
+  current = player->inventory;
+
+  while (current->next != NULL)
+  {
+    printf("%s\n", current->name);
+
+    next = current->next;
+
+    free(current);
+
+    current = next;
+  }
+
+  free(player);
+}
+
+
+
+# note
+btw I js found a new way to use the typdef struct, check the program.
+
+and I replace the old Inventory logic and player status logic with the new things I learnd, which is linked list.
+
+    // // Inventory_items
+    // Item *Inventory = malloc(25 * sizeof(Item));
+    // Inventory[0] = (Item){"Sword", 1};
+    // Inventory[1] = (Item){"Potion", 3};
+    // Inventory[2] = (Item){"Hi-Potion", 982982};
+    // Inventory[3] = (Item){"Orb", 1};
+    // Inventory[4] = (Item){"Hammer", 4};
+    // Inventory[5] = (Item){"Dagger", 3};
 
 
 ### MCU
