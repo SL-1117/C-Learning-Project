@@ -1,10 +1,15 @@
 # C-Learning-Project
 ### I think I might need to change the name to Engineering Training Project
 
-2026/10/6 Tuesday
+2026/10/7 Wednesday
 
-This is the nighteenth day I started learning C by making a game.
+This is the twentieth day I started learning C by making a game.
 
+# note
+I didn't delete those bc I still wanna review them.
+But basically what I learned mostly are all about MCU/embedded programming.
+I wrote all 9.md by myself to solve the isprime and show the RGB' problem.
+And also learned mostly about IRQ.
 
 ### C
 I'm gonna take the things that I learned from MCU into my main RPG project(include the new things I'mma learn on the Full-C-Courses). 
