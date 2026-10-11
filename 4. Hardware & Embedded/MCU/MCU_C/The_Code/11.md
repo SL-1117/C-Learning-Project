@@ -1,0 +1,242 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "NUC100Series.h"
+#include "MCU_init.h"
+#include "SYS_init.h"
+#include "Seven_Segment.h"
+#include "Scankey.h"
+
+
+volatile uint8_t num = 0;
+
+volatile uint8_t lock_state = 0;
+volatile uint8_t lock_display = 1;
+
+volatile uint8_t run_state = 0;
+// 0 = stop
+// 1 = counting up
+// 2 = counting down
+
+volatile uint8_t key3_state = 0;
+// 0 = next key 3 -> 00
+// 1 = next key 3 -> random
+
+volatile uint8_t pressed_key = 0;
+
+volatile uint16_t count_250ms = 0;
+volatile uint16_t count_500ms = 0;
+volatile uint32_t ticks = 0;          // FIX: used as random seed
+
+
+void Init_INT1(void)
+{
+    GPIO_SetMode(PB, BIT15, GPIO_MODE_INPUT);
+
+    GPIO_EnableEINT1(PB, 15, GPIO_INT_FALLING);   // FIX: trigger on press
+
+    NVIC_EnableIRQ(EINT1_IRQn);
+
+    GPIO_SET_DEBOUNCE_TIME(GPIO_DBCLKSRC_LIRC, GPIO_DBCLKSEL_64);
+    GPIO_ENABLE_DEBOUNCE(PB, BIT15);
+}
+
+
+void Init_key(void)
+{
+    GPIO_SetMode(PA, BIT0, GPIO_MODE_QUASI);
+    GPIO_SetMode(PA, BIT1, GPIO_MODE_QUASI);
+    GPIO_SetMode(PA, BIT2, GPIO_MODE_QUASI);
+
+    GPIO_SetMode(PA, BIT3, GPIO_MODE_QUASI);
+    GPIO_SetMode(PA, BIT4, GPIO_MODE_QUASI);
+    GPIO_SetMode(PA, BIT5, GPIO_MODE_QUASI);
+
+    PA0 = 1;
+    PA1 = 1;
+    PA2 = 1;
+
+    /* FIX: PA3 stays low forever (row of keys 1,2,3),
+       PA4/PA5 stay high forever. Never changed again. */
+    PA3 = 0;
+    PA4 = 1;
+    PA5 = 1;
+
+    GPIO_EnableInt(PA, 0, GPIO_INT_BOTH_EDGE);    // FIX: pin number, not BIT
+    GPIO_EnableInt(PA, 1, GPIO_INT_BOTH_EDGE);
+    GPIO_EnableInt(PA, 2, GPIO_INT_BOTH_EDGE);
+
+    NVIC_EnableIRQ(GPAB_IRQn);
+
+    GPIO_SET_DEBOUNCE_TIME(GPIO_DBCLKSRC_LIRC, GPIO_DBCLKSEL_64);
+    GPIO_ENABLE_DEBOUNCE(PA, BIT0 | BIT1 | BIT2);
+}
+
+
+/* FIX: only read PA0~2, never touch PA3~5 */
+int GetKey(void)
+{
+    if (PA0 == 0) return 1;
+    if (PA1 == 0) return 2;
+    if (PA2 == 0) return 3;
+    return 0;
+}
+
+
+void GPAB_IRQHandler(void)
+{
+    int key;
+
+    /* Clear interrupt flags */
+    if (PA->ISRC & BIT0) PA->ISRC = BIT0;
+    if (PA->ISRC & BIT1) PA->ISRC = BIT1;
+    if (PA->ISRC & BIT2) PA->ISRC = BIT2;
+
+    key = GetKey();
+
+    /* Key is being pressed: remember it */
+    if (key != 0)
+    {
+        pressed_key = key;
+    }
+
+    /* Key released: execute the action */
+    else if (pressed_key != 0)
+    {
+        if (lock_state == 0)
+        {
+            if (pressed_key == 1)
+            {
+                run_state = 1;
+                key3_state = 0;     // FIX: left the 00 state
+            }
+
+            else if (pressed_key == 2)
+            {
+                run_state = 2;
+                key3_state = 0;     // FIX: left the 00 state
+            }
+
+            else if (pressed_key == 3)
+            {
+                run_state = 0;
+
+                if (key3_state == 0)
+                {
+                    num = 0;
+                    key3_state = 1;
+                }
+                else
+                {
+                    srand(ticks);   // FIX: real random seed
+                    num = rand() % 100;
+                    key3_state = 0;
+                }
+            }
+        }
+
+        pressed_key = 0;
+    }
+}
+
+
+void EINT1_IRQHandler(void)
+{
+    GPIO_CLR_INT_FLAG(PB, BIT15);
+
+    if (lock_state == 0)
+    {
+        /* Lock (FIX: run_state kept, so counting resumes after unlock) */
+        lock_state = 1;
+        lock_display = 1;
+        count_500ms = 0;
+    }
+    else
+    {
+        /* Unlock */
+        lock_state = 0;
+        lock_display = 1;
+        count_500ms = 0;
+    }
+}
+
+
+void SysTick_Handler(void)
+{
+    ticks++;
+
+    /* 250 ms timer */
+    count_250ms++;
+
+    if (count_250ms >= 250)
+    {
+        count_250ms = 0;
+
+        if (lock_state == 0)
+        {
+            if (run_state == 1)
+            {
+                num++;
+
+                if (num > 99)
+                    num = 0;
+            }
+            else if (run_state == 2)
+            {
+                if (num == 0)
+                    num = 99;
+                else
+                    num--;
+            }
+        }
+    }
+
+    /* 500 ms blinking timer */
+    if (lock_state)
+    {
+        count_500ms++;
+
+        if (count_500ms >= 500)
+        {
+            count_500ms = 0;
+            lock_display = !lock_display;
+        }
+    }
+    else
+    {
+        count_500ms = 0;
+        lock_display = 1;
+    }
+}
+
+
+int32_t main(void)
+{
+    uint8_t n;     // FIX: local copy so tens/ones come from the same value
+
+    SYS_Init();
+
+    Init_key();
+    Init_INT1();
+
+    OpenSevenSegment();
+
+    SysTick_Config(SystemCoreClock / 1000);   // 1 ms
+
+    srand(SysTick->VAL);
+    num = rand() % 100;
+
+    while (1)
+    {
+        n = num;
+
+        if (lock_display)
+        {
+            ShowSevenSegment(2, n / 10);
+            ShowSevenSegment(3, n % 10);
+        }
+        else
+        {
+            CloseSevenSegment();    // FIX: really turn off when blinking
+        }
+    }
+}
