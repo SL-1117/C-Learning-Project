@@ -1,112 +1,208 @@
 # C-Learning-Project
 
-2026/10/12 Monday
+2026/10/13 Tuesday
 
-This is the twenty-fifth day I started learning C by making a game.
+This is the twenty-sixth day I started learning C by making a game.
 
-### MCU
-Finally, I wrapped all the things in my mind around and then figured out all the things that we r doing about the interrput. 
 
 ### C
 I'm gonna take the things that I learned from MCU into my main RPG project(include the new things I'mma learn in the Full-C-Courses).
 
-# bool
-#include <stdbool.h>
+# static 
+static int digit = 0;
+local variable = remember its value between function calls.
 
-bool isAdult(int age)
+# continue / break
+for (int i = 0; i < 20; i++)
+{
+    if (i == 16)
+    {
+        continue;
+    }
+
+    printf("%d\n", i);
+}
+
+for (int i = 0; i < 20; i++)
+{
+    if (i == 16)
+    {
+        break;
+    }
+
+    printf("%d\n", i);
+}
+
+# char declare
+int num[] = {0};
+int num[] = {1, 2, 3, 4, 5};
+
+char num[] = '\0';
+char num[] = "Thomas";
+
+char phone_keypad[][20] = {{'1', '2', '3'},
+                           {'4', '5', '6'},
+                           {'7', '8', '9'}, 
+                           {'*', '0', '#'}};
+char fruits[][100] = {"Apple", 
+                      "Banana", 
+                      "Coconut"};
+
+fruits[0][0] = 'e';
+fruits[0][4] = 'A';
+
+# include <ctype.h>
+int main(void) 
+{
+    char guess = '\0';
+
+    scanf(" %c", &guess);
+
+    guess = toupper(guess);
+
+    printf("%c", guess);
+}
+
+# scanf(" %c", guess);
+
+# printf("%4d", num);
+   2
+
+
+###
+#include <stdio.h>
+#include <string.h>
+#include <windows.h>
+#include <stdbool.h>
+#include <ctype.h>
+
+guess = toupper(guess);
+guess = tolower(guess);
+
+scanf(" %s", name);
+printf("%3d", name;)
+
+for (int i = 0; i < 10; i++)
+{
+    if (i == 5)
+    {
+        break;
+    }
+
+    printf("%d", i);
+}
+
+for (int i = 0; i < 10; i++)
+{
+    if (i == 5)
+    {
+        continue;
+    }
+
+    printf("%d", i);
+}
+
+int numbers[5] = {0};
+int numbers[5] = {1, 2, 3, 4, 5};
+
+char guess = '\0';
+char characters[] = {'A', 'B', 'C', 'D', 'E'}; 
+char characters2[] = "HelloWorld";
+
+char keypad[][3] = {{'1', '2', '3'},
+                    {'4', '5', '6'},
+                    {'7', '8', '9'},
+                    {'*', '0', '#'}};
+char fruits[][3] = {"Apple", 
+                    "Banana",
+                    "Coconut"};
+
+fruits[0][0] = 'e';
+fruits[0][4] = 'A';
+
+fruits[1][0] = 'a';
+fruits[1][5] = 'B';
+
+fruits[2][0] = 't';
+fruits[2][6] = 'C';
+
+// when we enter 10 at the first scanf, we press "enter" 
+// so the program is actually received 10\n
+scanf("%d", &num);
+scanf(" %c", &choice);
+
+bool age18Check(int age)
+{
+    if (age >= 18) return true;
+    else return false;
+}
+
+bool age18Check2(int age)
 {
     return age >= 18;
 }
 
-bool islocked = true, false;
-
-if (isAdult(19))
-    printf("You are an adult.\n");
-else
-    printf("You are not adult.\n");
-
-# do while
-the only difference between do while and while is the order.
-the order to execute the program and check the value.
-
-void AttackCheck(void) 
+char AttackCheck(void) 
 {
+    int hp = 10;
+
     do {
-        printf("You are attacked!");
-        hp -= 2;
+        printf("Attack!\n");
+        hp -= 1;
+        Sleep(1000);
     } while (hp > 0);
 }
 
-# float
-The way we need to declare the float number.
-
-float num1 = 0.0f;
-float num2 = 11.23f;
-
-# double 
-The way we need to declare the double number.
-
-double num1 = 0.0;
-double num2 = 20.34;
-
-# char array
-char name[20] = "";
-char choice = '\0';
-
-# fget
-js for reviewing
-
-char name[20] = "";
-
-fget(name, sizeof(name), stdin);
-name[strlen[name] - 1] = '\0';
-
-printf("%s", name);
-
-# static 
-static int digit = 0;
-
-local variable = remember its value between function calls.
-
-# Fibonnaci 
-#include <stdio.h>
-
-void Fibonnaci(int num_of_sequence, int arr[])
+int main(void) 
 {
-    if (num_of_sequence <= 0)
+    bool islocked = true;
+
+    char name[20] = "";
+    char operator = '\0';
+
+    float weight = 0.0f;
+    float height = 0.0f;
+    float rnum = 10.00;
+
+    double num1 = 0.0;
+    double num2 = 21.34;
+    double result = 0.0;
+
+    int age = 3;
+
+    printf("Enter ur name: \n");
+    fgets(name, sizeof(name), stdin);
+    name[strlen(name) - 1] = '\0';
+
+    printf("ur name is %s\n", name);
+    printf("ur age is %.2lf\n", age);
+
+    if (islocked == true)
     {
-        printf("Invalid num\n");
-        return;
+        if (age18Check2(18))
+        {
+            printf("You are already 18.\n");
+        }
+
+        else 
+        {
+            printf("You are not 18 yet.\n");
+        }
+
+        printf("You ara locked.\n");
     }
 
-    if (num_of_sequence >= 1) arr[0] = 1;
-    if (num_of_sequence >= 2) arr[1] = 1;
-
-    if (num_of_sequence >= 3)
+    else if (islocked == false)
     {
-
-            for (int j = 0; j < num_of_sequence; j++)
-            {
-                arr[j + 2] = arr[j + 1] + arr[j]; 
-            }
-
+        printf("You are not a locked.\n");
     }
-}
 
-int main(void)
-{
-    int num_of_sequence = 0;
-    int arr[30];
+    printf("num1's value is %lf\n", num1);
+    printf("num2's value is %.2f\n", num2);
 
-    printf("Pls enter the number of the Fibonnaci that You wish down below.\n");
-    scanf("%d", &num_of_sequence);
+    AttackCheck();
 
-    Fibonnaci(num_of_sequence, arr);
-
-    for (int i = 0; i < num_of_sequence; i++)
-    {
-        printf("%d\n", arr[i]);
-    }
+    getchar();
 }
 
 
