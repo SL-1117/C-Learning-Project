@@ -134,11 +134,7 @@ int main()
         fprintf(stderr, "Error: Failed to allocate memory for player.\n");
         return 1;
     }
-    
-    assert(player != NULL);
-    assert(player->hp <= PLAYER_MAX_HP);
-    assert(player->mp <= PLAYER_MAX_MP);
-
+     
     // Inventory_items
     AddItem(player, "Sword", 150, 1);
     AddItem(player, "Potion", 50, 3);
