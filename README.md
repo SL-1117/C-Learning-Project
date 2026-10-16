@@ -389,7 +389,7 @@ void plusPlayerGold(int *gold)
 ```
 
 
-### The roadmap of Data Structure(but dis is not for today tho.)
+# The roadmap of Data Structure(but dis is not for today tho.)
 ```c
                            DATA STRUCTURES
                                   │
