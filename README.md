@@ -1,8 +1,8 @@
 # C-Learning-Project
 
-2026/10/15 Thursday
+2026/10/16 Friday
 
-This is the twenty-eighth day I started learning C by making a game.
+This is the twenty-nineth day I started learning C by making a game.
 
 
 ### C
@@ -11,6 +11,146 @@ I'm gonna take the things that I learned from MCU into my main RPG project(inclu
 # static 
 static int digit = 0;
 local variable = remember its value between function calls.
+
+# fopen "r"
+#include <stdio.h>
+
+int main(void)
+{
+    FILE *pFile = fopen("C:\\Users\\liwei\\OneDrive\\桌面\\Coding\\C\\Engineering_Technical_Skills\\1. Programming_Ability\\C\\RPG_LOST_KINGDOM\\readTest.txt", "r");
+
+    if (pFile == NULL)
+    {
+        printf("Could not open the file.");
+        return 1;
+    }
+
+    char buffer[1024] = {0};
+    char player_input[20] = {0};
+
+    while (fgets(buffer, sizeof(pFile), pFile))
+    {
+        printf("%s", buffer);
+    }
+
+    printf("\n");
+
+    fgets(player_input, sizeof(player_input), stdin);
+    player_input[sizeof(player_input) + 1] = '\0';
+
+    printf("%s", player_input);
+
+    getchar();
+    
+    return 0;
+}
+
+
+# fopen "w"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <ctype.h>
+
+int main(void)
+{
+    FILE *pFile = fopen("C:\\Users\\liwei\\OneDrive\\桌面\\Coding\\C\\Engineering_Technical_Skills\\1. Programming_Ability\\C\\RPG_LOST_KINGDOM\\output.c", "w");
+    
+    if (pFile == NULL)
+    {
+        printf("Error opening file!");
+        return 1;
+    }
+
+    bool isPlayerLucky = false;
+
+    char words[] = "// \"You have found the very secret path...\"";
+    char *messages = malloc(strlen(words) * sizeof(char));
+    strcpy(messages, words);
+
+    char player_input[] = {0};
+
+    printf("Pls enter \"Yes\" if hope you are lucky.\n");
+    scanf("%s", player_input);
+    for (int i = 0; player_input[i] != '\0'; i++)
+    {
+        player_input[i] = tolower(player_input[i]);
+    }
+
+    if (strcmp(player_input, "yes") == 0)
+    {
+        isPlayerLucky = true;
+    }
+
+    else 
+    {
+        printf("You didn't allow us to switch ur state.\n");
+    }
+
+    fprintf(pFile, "%s", (isPlayerLucky) ? messages : "Nope");
+
+    printf("File open successfully!");
+
+    fclose(pFile);
+
+    getchar();
+
+    return 0;
+}
+
+
+# pointer
+# array of struct
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct 
+{
+    char *name;
+    char *race;
+    int hp;
+    int mp;
+    int atk;
+    int def;
+    int level;
+}Mob;
+
+void plusPlayerGold(int *gold);
+
+int main(void) 
+{   
+    int Gold = 1000;
+    int *gold  = &Gold;
+
+    *gold++;
+    (*gold)++;
+
+    Mob mobs[] = {{"Charlie", "Wolf", 100, 100, 10, 10, 1},
+                  {"Hokkins", "Slime", 50, 50, 1, 1, 1},
+                  {"Steve", "Orc", 200, 200, 100, 100, 50}};
+
+    int size = sizeof(mobs) / sizeof(mobs[0]);              
+
+    for (int i = 0; i < size; i++)
+    {
+        printf("Name: %-7s\nRace: %-7s\nHP: %-7d\nMP: %-7d\nATK: %-7d\nDEF: %-7d\nLevel: %-7d\n\n",
+            mobs[i].name, mobs[i].race, mobs[i].hp, mobs[i].mp, mobs[i].atk, mobs[i].def, mobs[i].level);
+    }
+
+
+    printf("%d\n", Gold);
+
+    printf("%d\n", &Gold);
+    printf("%d\n", gold);
+
+    getchar();
+}
+
+void plusPlayerGold(int *gold)
+{
+    (*gold)++;
+}
 
 # typedef 
 #include <stdio.h>
@@ -192,6 +332,56 @@ int main(void)
     printf("%02d:%02d %s", hours, minutes, meridium);
 
     getchar();
+}
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct 
+{
+    char *name;
+    char *race;
+    int hp;
+    int mp;
+    int atk;
+    int def;
+    int level;
+}Mob;
+
+void plusPlayerGold(int *gold);
+
+int main(void) 
+{   
+    int Gold = 1000;
+    int *gold  = &Gold;
+
+    *gold++;
+    (*gold)++;
+
+    Mob mobs[] = {{"Charlie", "Wolf", 100, 100, 10, 10, 1},
+                  {"Hokkins", "Slime", 50, 50, 1, 1, 1},
+                  {"Steve", "Orc", 200, 200, 100, 100, 50}};
+
+    int size = sizeof(mobs) / sizeof(mobs[0]);              
+
+    for (int i = 0; i < size; i++)
+    {
+        printf("Name: %-7s\nRace: %-7s\nHP: %-7d\nMP: %-7d\nATK: %-7d\nDEF: %-7d\nLevel: %-7d\n\n",
+            mobs[i].name, mobs[i].race, mobs[i].hp, mobs[i].mp, mobs[i].atk, mobs[i].def, mobs[i].level);
+    }
+
+
+    printf("%d\n", Gold);
+
+    printf("%d\n", &Gold);
+    printf("%d\n", gold);
+
+    getchar();
+}
+
+void plusPlayerGold(int *gold)
+{
+    (*gold)++;
 }
 
 
