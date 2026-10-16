@@ -4,6 +4,8 @@
 
 This is the twenty-nineth day I started learning C by making a game.
 
+# First time try to format the README lol
+
 # C note
 I'm gonna take the things that I learned from MCU into my main RPG project(include the new things I'mma learn in the Full-C-Courses).
 
