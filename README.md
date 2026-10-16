@@ -390,7 +390,7 @@ void plusPlayerGold(int *gold)
 
 
 ### The roadmap of Data Structure(but dis is not for today tho.)
-
+```c
                            DATA STRUCTURES
                                   │
           ┌───────────────────────┼────────────────────────┐
@@ -427,3 +427,4 @@ void plusPlayerGold(int *gold)
      Chaining                                  B-Tree
      Open Addressing                           Segment Tree
                                                Fenwick Tree
+```
