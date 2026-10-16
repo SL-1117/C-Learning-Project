@@ -4,8 +4,7 @@
 
 This is the twenty-nineth day I started learning C by making a game.
 
-
-### C
+# C note
 I'm gonna take the things that I learned from MCU into my main RPG project(include the new things I'mma learn in the Full-C-Courses).
 
 # static 
@@ -13,6 +12,7 @@ static int digit = 0;
 local variable = remember its value between function calls.
 
 # fopen "r"
+```c
 #include <stdio.h>
 
 int main(void)
@@ -44,9 +44,11 @@ int main(void)
     
     return 0;
 }
+```
 
 
 # fopen "w"
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -98,10 +100,11 @@ int main(void)
 
     return 0;
 }
+```
 
 
-# pointer
-# array of struct
+# array_of_struct / pointer
+```c 
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -176,11 +179,11 @@ int main(void)
     
     getchar();
 }
+```
 
 
-
-
-###
+# Main
+```c
 #include <stdio.h>
 #include <stdbool.h>
 #include <ctype.h>
@@ -383,6 +386,7 @@ void plusPlayerGold(int *gold)
 {
     (*gold)++;
 }
+```
 
 
 ### The roadmap of Data Structure(but dis is not for today tho.)
