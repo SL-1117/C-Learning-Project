@@ -8,8 +8,8 @@ This is the twenty-nineth day I started learning C by making a game.
 I'm gonna take the things that I learned from MCU into my main RPG project(include the new things I'mma learn in the Full-C-Courses).
 
 # static 
-static int digit = 0;
-local variable = remember its value between function calls.
+- static int digit = 0;
+- local variable = remember its value between function calls.
 
 # fopen "r"
 ```c
