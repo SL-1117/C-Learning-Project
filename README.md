@@ -1,185 +1,100 @@
 # C-Learning-Project
 
-2026/10/16 Friday
+2026/10/17 Saturday
 
-This is the twenty-nineth day I started learning C by making a game.
-
-# First time try to format the README lol
+This is the thirtieth day I started learning C by making a game.
 
 # C note
 I'm gonna take the things that I learned from MCU into my main RPG project(include the new things I'mma learn in the Full-C-Courses).
 
-# static 
-- static int digit = 0;
-- local variable = remember its value between function calls.
-
-# fopen "r"
+# calloc
 ```c
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
-    FILE *pFile = fopen("C:\\Users\\liwei\\OneDrive\\桌面\\Coding\\C\\Engineering_Technical_Skills\\1. Programming_Ability\\C\\RPG_LOST_KINGDOM\\readTest.txt", "r");
+    int input = 0;
 
-    if (pFile == NULL)
+    scanf("%d", &input);
+
+    int *memory = calloc(input, sizeof(int));
+
+    if (memory == NULL)
     {
-        printf("Could not open the file.");
+        printf("Memory allocation failed.");
         return 1;
     }
 
-    char buffer[1024] = {0};
-    char player_input[20] = {0};
-
-    while (fgets(buffer, sizeof(pFile), pFile))
+    for (int i = 0; i < input; i++)
     {
-        printf("%s", buffer);
+        printf("%d ", memory[i]);
     }
 
-    printf("\n");
-
-    fgets(player_input, sizeof(player_input), stdin);
-    player_input[sizeof(player_input) + 1] = '\0';
-
-    printf("%s", player_input);
-
-    getchar();
-    
     return 0;
 }
 ```
 
 
-# fopen "w"
+# realloc 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-#include <ctype.h>
+#include <stdint.h>
 
 int main(void)
 {
-    FILE *pFile = fopen("C:\\Users\\liwei\\OneDrive\\桌面\\Coding\\C\\Engineering_Technical_Skills\\1. Programming_Ability\\C\\RPG_LOST_KINGDOM\\output.c", "w");
-    
-    if (pFile == NULL)
+    uint32_t input1 = 0;
+
+    printf("Pls enter the first allocation number.\n(The number of the grades)\n");
+    scanf("%d", &input1);
+
+    float *memory = malloc(input1 * sizeof(float));
+
+    if (memory == NULL)
     {
-        printf("Error opening file!");
+        printf("Memory allocation falied.");
         return 1;
     }
 
-    bool isPlayerLucky = false;
+    printf("%d\n", input1);
 
-    char words[] = "// \"You have found the very secret path...\"";
-    char *messages = malloc(strlen(words) * sizeof(char));
-    strcpy(messages, words);
-
-    char player_input[] = {0};
-
-    printf("Pls enter \"Yes\" if hope you are lucky.\n");
-    scanf("%s", player_input);
-    for (int i = 0; player_input[i] != '\0'; i++)
+    for (int i = 0; i < input1; i++)
     {
-        player_input[i] = tolower(player_input[i]);
+        printf("grade%d: ", i + 1);
+        scanf("%f", &memory[i]);
     }
 
-    if (strcmp(player_input, "yes") == 0)
-    {
-        isPlayerLucky = true;
-    }
+    int input2 = 0;
+    printf("\nPls enter a new number that you want to allocate: ");
+    scanf("%d", &input2);
 
+    float *temp = realloc(memory, input2 * sizeof(float));
+
+    if (temp == NULL) 
+    {
+        printf("Memory allocation failed.");
+    } 
     else 
     {
-        printf("You didn't allow us to switch ur state.\n");
+        memory = temp;
+        temp = NULL;
+
+        for (int i = input1; i < input2; i++)
+        {
+            printf("grade%d: ", i + 1);
+            scanf("%f", &memory[i]);
+        }
+
+        for (int i = 0; i < input2; i++)
+        {
+            printf("%.2f ", memory[i]);
+        }
     }
 
-    fprintf(pFile, "%s", (isPlayerLucky) ? messages : "Nope");
-
-    printf("File open successfully!");
-
-    fclose(pFile);
-
-    getchar();
+    free(memory);
 
     return 0;
-}
-```
-
-
-# array_of_struct / pointer
-```c 
-#include <stdio.h>
-#include <stdlib.h>
-
-typedef struct 
-{
-    char *name;
-    char *race;
-    int hp;
-    int mp;
-    int atk;
-    int def;
-    int level;
-}Mob;
-
-void plusPlayerGold(int *gold);
-
-int main(void) 
-{   
-    int Gold = 1000;
-    int *gold  = &Gold;
-
-    *gold++;
-    (*gold)++;
-
-    Mob mobs[] = {{"Charlie", "Wolf", 100, 100, 10, 10, 1},
-                  {"Hokkins", "Slime", 50, 50, 1, 1, 1},
-                  {"Steve", "Orc", 200, 200, 100, 100, 50}};
-
-    int size = sizeof(mobs) / sizeof(mobs[0]);              
-
-    for (int i = 0; i < size; i++)
-    {
-        printf("Name: %-7s\nRace: %-7s\nHP: %-7d\nMP: %-7d\nATK: %-7d\nDEF: %-7d\nLevel: %-7d\n\n",
-            mobs[i].name, mobs[i].race, mobs[i].hp, mobs[i].mp, mobs[i].atk, mobs[i].def, mobs[i].level);
-    }
-
-
-    printf("%d\n", Gold);
-
-    printf("%d\n", &Gold);
-    printf("%d\n", gold);
-
-    getchar();
-}
-
-void plusPlayerGold(int *gold)
-{
-    (*gold)++;
-}
-
-# typedef 
-#include <stdio.h>
-#include <stdint.h>
-#include <stdbool.h>
-
-typedef int HelloNumber;
-typedef uint8_t HelloLnumber;
-typedef char HelloTest[3];
-typedef char *HelloPointer;
-
-int main(void)
-{
-    HelloNumber Anumber = 8387;
-    HelloLnumber anumber = 98;
-    HelloTest name = "BT";
-    HelloPointer name2 = "SP";
-
-    printf("%d\n", Anumber);
-    printf("%d\n", anumber);
-    printf("%s\n", name);
-    printf("%s\n", name2);
-    
-    getchar();
 }
 ```
 
@@ -415,18 +330,4 @@ void plusPlayerGold(int *gold)
     │     └── Circular Linked List
     │
     └── Dynamic Array
-
-
-                    OTHER IMPORTANT STRUCTURES
-                              │
-          ┌───────────────────┼───────────────────┐
-          ▼                   ▼                   ▼
-     Hash Table          Disjoint Set         Advanced
-                                               Structures
-          │                   │                   │
-     Hash Function        Union-Find          AVL Tree
-     Collision            DSU                 Red-Black Tree
-     Chaining                                  B-Tree
-     Open Addressing                           Segment Tree
-                                               Fenwick Tree
 ```

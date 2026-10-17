@@ -1,31 +1,24 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
-    FILE *pFile = fopen("C:\\Users\\liwei\\OneDrive\\桌面\\Coding\\C\\Engineering_Technical_Skills\\1. Programming_Ability\\C\\RPG_LOST_KINGDOM\\readTest.txt", "r");
+    int input = 0;
 
-    if (pFile == NULL)
+    scanf("%d", &input);
+
+    int *memory = calloc(input, sizeof(int));
+
+    if (memory == NULL)
     {
-        printf("Could not open the file.");
+        printf("Memory allocation failed.");
         return 1;
     }
 
-    char buffer[1024] = {0};
-    char player_input[20] = {0};
-
-    while (fgets(buffer, sizeof(pFile), pFile))
+    for (int i = 0; i < input; i++)
     {
-        printf("%s", buffer);
+        printf("%d ", memory[i]);
     }
 
-    printf("\n");
-
-    fgets(player_input, sizeof(player_input), stdin);
-    player_input[sizeof(player_input) + 1] = '\0';
-
-    printf("%s", player_input);
-
-    getchar();
-    
     return 0;
 }
