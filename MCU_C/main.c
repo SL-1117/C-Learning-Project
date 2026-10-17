@@ -1,123 +1,129 @@
-// #include <stdio.h>
 // #include "NUC100Series.h"
-// #include "GPIO.h"
-// #include "SYS.h"
+// #include "MCU_init.h"
+// #include "SYS_init.h"
 // #include "Seven_Segment.h"
 // #include "Scankey.h"
 
-#define B 7 
-#define C 8 
-#define PLUS_KEY 9
+#define BUZZER PB11
+#define RED PA14
+#define GREEN PA13
+#define BLUE PA12
 
-int num1 = 0;
-int num2 = 0;
-int state = 0;
+#define C 8
+#define R 9
 
-int GetDisplayNum(void);
-void Refresh_7seg(int value);
-void AddNum(int digit, int *num);
+void Show_7segment(int num);
+void Buzz(void);
 
-void ClearAll(void);
-void BackSpace(int *num);
+int IsPrime(int num);
+
+void ClearALL(void);
 
 int main(void)
 {
     int key = 0;
     int last_key = 0;
-
+    int num = 0;
+    
     SYS_Init();
 
     OpenSevenSegment();
     OpenKeyPad();
 
-    while(1)
+    GPIO_SetMode(PA, BIT12, GPIO_MODE_OUTPUT);
+    GPIO_SetMode(PA, BIT13, GPIO_MODE_OUTPUT);
+    GPIO_SetMode(PA, BIT14, GPIO_MODE_OUTPUT);
+
+    GPIO_SetMode(PB, BIT11, GPIO_MODE_OUTPUT);
+
+    BUZZER = 1;
+
+    srand(SysTick -> VAL);
+
+    while (1)
     {
         key = Scankey();
 
-        if (last_key >= 1 && last_key <= 6 && key == 0)
+        if (last_key == C && key == 0)
         {
-            if (state == 0) AddNum(last_key, &num1);
-            else if (state == 1) AddNum(last_key, &num2);
+            num = 0;
+            ClearALL();
         }
 
-        else if (last_key == B && key == 0)
+        if (last_key == R && key == 0)
         {
-            if (state == 0) BackSpace(&num1);
-            else if (state == 1) BackSpace(&num2);
-        }
+            num = rand() % 99 + 1;
 
-        else if (last_key == C && key == 0)
-        {
-            ClearAll();
-        }
-
-        else if (last_key == PLUS_KEY && key == 0)
-        {
-            if (state == 0) state = 1;
-            else if (state == 1) state = 2;
-        }
-
-        Refresh_7seg(GetDisplayNum());
-
-        if (state == 2)
-        {
-            while (key != C)
+            if (IsPrime(num))
             {
-                key = Scankey();
+                RED = 0;
+
+                if (num % 2 == 0) BLUE = 0;
+                if (num % 3 == 0) GREEN = 0;
+                
+                Buzz();
             }
 
-            ClearAll();
+            else 
+            {
+                if (num % 2 == 0) BLUE = 0;
+                if (num % 3 == 0) GREEN = 0;
+            }
         }
+
+        Show_7segment(num);
 
         last_key = key;
     }
+
 }
 
-void Refresh_7seg(int value)
+void Show_7segment(int num)
 {
     static int digit = 0;
 
-    int d0 = value % 10;
-    int d1 = (value / 10) % 10;
-    int d2 = (value / 100) % 10;
-    int d3 = (value / 1000) % 10;
+    int d0 = num % 10; 
+    int d1 = (num / 10) % 10;
 
     CloseSevenSegment();
 
-    if (digit == 0 && value != 0)           ShowSevenSegment(0, d0);
-    else if (digit == 1 && value >= 10)     ShowSevenSegment(1, d1);
-    else if (digit == 2 && value >= 100)    ShowSevenSegment(2, d2);
-    else if (digit == 3 && value >= 1000)   ShowSevenSegment(3, d3);
-
-    CLK_SysTickDelay(1000);
+    if (digit == 0 && num != 0) ShowSevenSegment(0, d0);
+    if (digit == 1 && num >= 10) ShowSevenSegment(1, d1);
 
     digit++;
-    
-    if (digit >= 4) digit = 0;
+
+    if (digit >= 2) digit = 0;
 }
 
-int GetDisplayNum(void)
+void Buzz(void)
 {
-    if (state == 0) return num1;
-    if (state == 1) return num2;
+    BUZZER = 0;
+    CLK_SysTickDelay(2000);
 
-    return num1 + num2;
+    BUZZER = 1;
+    CLK_SysTickDelay(2000);
 }
 
-void AddNum(int digit, int *num)
+int IsPrime(int num)
 {
-    *num = *num * 10 + digit;
+    if (num < 2) return 0;
+
+    for (int i = 2; i * i <= num; i++)
+    {
+        if (num % i == 0)
+        {
+            return 0;
+        }
+    }
+
+    return 1;
 }
 
-void ClearAll(void)
+void ClearALL(void)
 {
-    state = 0;
-    num1 = 0;
-    num2 = 0;
+    BUZZER = 1;
+    RED = 1;
+    BLUE = 1;
+    GREEN = 1;
     CloseSevenSegment();
-}
-
-void BackSpace(int *num)
-{
-    *num = *num / 10;
 }
