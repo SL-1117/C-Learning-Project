@@ -1,22 +1,24 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <stdbool.h>
+
+typedef int HelloNumber;
+typedef uint8_t HelloLnumber;
+typedef char HelloTest[3];
+typedef char *HelloPointer;
 
 int main(void)
 {
-    int num = 0;
-    bool online = true;
-    int age = 18;
-    int number = 100;
+    HelloNumber Anumber = 8387;
+    HelloLnumber anumber = 98;
+    HelloTest name = "BT";
+    HelloPointer name2 = "SP";
 
-    int minutes = 2;
-    int hours = 17;
-    char *meridium = (hours <= 12) ? "AM" : "PM";
-
-    printf("%s\n", (num == 0) ? "Yes" : "No");
-    printf("%s\n", (online == true) ? "The player is online." : "The player is not online.");
-    printf("%s\n", (age >= 18) ? "Adult" : "Children");
-    printf("%s\n", (number % 2 == 0) ? "Odd" : "Even");
-    printf("%02d:%02d %s", hours, minutes, meridium);
+    printf("%d\n", Anumber);
+    printf("%d\n", anumber);
+    printf("%s\n", name);
+    printf("%s\n", name2);
+    
 
     getchar();
 }
