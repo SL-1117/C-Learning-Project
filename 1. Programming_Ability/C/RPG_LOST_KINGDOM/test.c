@@ -1,24 +1,31 @@
 #include <stdio.h>
-#include <stdint.h>
-#include <stdbool.h>
-
-typedef int HelloNumber;
-typedef uint8_t HelloLnumber;
-typedef char HelloTest[3];
-typedef char *HelloPointer;
 
 int main(void)
 {
-    HelloNumber Anumber = 8387;
-    HelloLnumber anumber = 98;
-    HelloTest name = "BT";
-    HelloPointer name2 = "SP";
+    FILE *pFile = fopen("C:\\Users\\liwei\\OneDrive\\桌面\\Coding\\C\\Engineering_Technical_Skills\\1. Programming_Ability\\C\\RPG_LOST_KINGDOM\\readTest.txt", "r");
 
-    printf("%d\n", Anumber);
-    printf("%d\n", anumber);
-    printf("%s\n", name);
-    printf("%s\n", name2);
-    
+    if (pFile == NULL)
+    {
+        printf("Could not open the file.");
+        return 1;
+    }
+
+    char buffer[1024] = {0};
+    char player_input[20] = {0};
+
+    while (fgets(buffer, sizeof(pFile), pFile))
+    {
+        printf("%s", buffer);
+    }
+
+    printf("\n");
+
+    fgets(player_input, sizeof(player_input), stdin);
+    player_input[sizeof(player_input) + 1] = '\0';
+
+    printf("%s", player_input);
 
     getchar();
+    
+    return 0;
 }
