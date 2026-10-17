@@ -1,63 +1,77 @@
 # C-Learning-Project
 
-2026/9/19 
+2026/9/20 Sunday
 
-This is my first day learning C by making a RPG game.
+The this is the third day I start learning C by making a game.
 
-### How define variables correctly.
+### The basic Git workflow for managing code.
 
-int         (%d) 
-Float       (%.2f) 
-Double      (%.3lf)
-char        (%c)
-char[]      (%s)
+let's start from the notes
 
-//Definitely wrong.
-int Sword, Orb, Hammer, Dagge = 150;   
+So basically never use git init in the same project twice, that's gonna mess the whole thingy in the folder up.
 
-int Sword = 150, Orb = 150, Hammer = 150, Dagger = 150;  
-char[] = "";
+# git add . 
 
-### How to use basic logic.
+# git commit -m "Day_3"
 
-scanf("", &)
+# git push -u origin Day_3
 
-# How to use \n
-printf("%d\n", Player_Gold)
+We did this bc the branch Day_3 still didn't know which remote repository to push to.
 
-# How to short Player_Gold = Player - Sword;
-Player_Gold -= Sword;
+Now we can use git push/pull to manage.
 
-if () {}
-else if () {}
+If we pushed the wrong version that still doesn't finish yet, js delete it and push the finished version.
 
+# git checkout 
 
+# git diff
 
-### How to use one printf to make this.
+# git log (--oneline)
 
-        printf("╔══════════════════════════════╗\n"
-               "║         Save / Load          ║\n"
-               "╠══════════════════════════════╣\n"
-               "║ 1. Sword: 150 G              ║\n"
-               "║ 2. Orb: 150 G                ║\n" 
-               "║ 3. Hammer 150 G              ║\n" 
-               "║ 4. Dagger 150 G              ║\n" 
-               "║ 5. Potion: 50 G              ║\n" 
-               "║ 6. Hi-Potion: 100 G          ║\n" 
-               "║ 7. exit                      ║\n"
-               "╚══════════════════════════════╝\n",
-               and if we r gonna put some varibles here);
+# git reflog 
+
+use this when we used git checkout but js feel going back to some past saving point
+
+I think I know pretty much abt git
 
 
 
-### How to make the program shorter without using {}
 
-if ()
-    The inside "if" logic 
-        : (The first logic, 
-           The second logic)
-        ? (The inside else if logic);
+### strcmp and 
 
-else if ()
-    Same logic
+# \"ok\" ===> "ok"
 
+it's used to compare two strings
+
+if (strcmp(Player_input, "ok") == 0) 
+{
+    printf("The player entered \"ok\".\n");
+}
+
+
+
+
+### BubbleSort 
+
+it's used to sort the number in ascending order.
+as for why do we use void here is bc that the code js modified the main program,
+it's not seperately generate other outputs.
+and also, we need to define the "total_num" outside the function,
+bc the input "int arr[]" is js a pointer that point to the arr.
+it cannot be used to calculate the number in the arr.
+
+void BubbleSort (int arr[], int total_num)
+{
+    for (int i = 0; i < total_num - 1; i++)
+    {
+        for (int j = 0; i < total_num -1; j++)
+        {
+            if (arr[j] > arr[j + 1])   
+            {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr [j + 1] = temp;
+            } 
+        }
+    }
+}
