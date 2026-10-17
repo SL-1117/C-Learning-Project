@@ -1,16 +1,22 @@
 # C-Learning-Project
+### I think I might need to change the name to Engineering Training Project
 
-2026/10/1 Thursday
+2026/10/3 Friday
 
-This is the thirteenth day I started learning C by making a game.
-It's Thursday tdy, I don't really have time for learning anything new.
-I still learned a bunch of MCU knowledge and didn't even waste any leisure time that I got tho, so I guess it's enough for tdy.
+This is the fifteenth day I started learning C by making a game.
 
-And also for the project I js decide to combine the things that I learned into the main game logic(include the new things I'mma learn on the Full-C-Courses)after figuring out the MCU step by step like the roadmap I made below.
 
 ### C
 I'm gonna take the things that I learned from MCU into my main RPG project(include the new things I'mma learn on the Full-C-Courses). 
 I think I'm js gonna make something like roadmap tdy after back from camping.
+
+# assert
+It's basically a checking/protection mechanism that verifies assumptions the programmer expects to always be true.
+if an assumption is false while the program is still running, assert reports the false and stops the program.
+
+assert(player->hp <= PLAYER_MAX_HP);
+assert(player->mp <= PLAYER_MAX_MP);
+assert(player->level <= PLAYER_MAX_LEVEL);
 
 
 ### MCU

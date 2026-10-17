@@ -31,23 +31,27 @@ typedef enum
     ORC = 4
 } MOB;
 
-typedef struct
+typedef struct Item
 {
-    const char *name;
+    char name[30];
+    int price;
     int quantity;
+
+    struct Item *next;
 } Item;
 
 typedef struct
 {
     char name[20];
     const char *race;
-    Class MAGE;
+    Class player_class;
     int hp;
     int mp;
     int level;
     int gold;
     int atk;
     int def;
+    Item *inventory;
 } status;
 
 typedef struct
@@ -97,17 +101,18 @@ typedef struct
 // ===== Functions declaration =====
 
 void Menu(void);
-void Character_Status(status player);
-void Inventory_UI(const Item Inventory[], int number_of_items);
+void Character_Status(status *player);
+void Inventory_UI(status *player, int number_of_items);
 void Shop(const char *Shop_items_names[], const int Shop_items_prices[], int Shop_number_of_items);
 void Battle(void);
 void Explore(void);
 void Settings(void);
 void Save_Load(void);
-void BubbleSort(Item Inventory[], int number_of_items);
+void BubbleSort(status *player, int number_of_items);
 void Fibonacci(int Fibonacci_num, int Fibonacci_arr[]);
 void clearScreen(void);
 void Typetext(const char text[]);
+void AddItem(status *player, char name[], int price, int quantity);
 
 // ===== Main =====
 
@@ -123,17 +128,24 @@ int main()
     // Delay
 
     // Player_Stats
-    status player = {
-        "Eren", "Human", PRIEST, PLAYER_MAX_HP, PLAYER_MAX_MP, PLAYER_MAX_LEVEL, 2000, PLAYER_MAX_ATK, PLAYER_MAX_DEF};
+    status *player = malloc(sizeof(status));
+    if (player == NULL)
+    {
+        fprintf(stderr, "Error: Failed to allocate memory for player.\n");
+        return 1;
+    }
+    
+    assert(player != NULL);
+    assert(player->hp <= PLAYER_MAX_HP);
+    assert(player->mp <= PLAYER_MAX_MP);
 
     // Inventory_items
-    Item *Inventory = malloc(25 * sizeof(Item));
-    Inventory[0] = (Item){"Sword", 1};
-    Inventory[1] = (Item){"Potion", 3};
-    Inventory[2] = (Item){"Hi-Potion", 982982};
-    Inventory[3] = (Item){"Orb", 1};
-    Inventory[4] = (Item){"Hammer", 4};
-    Inventory[5] = (Item){"Dagger", 3};
+    AddItem(player, "Sword", 150, 1);
+    AddItem(player, "Potion", 50, 3);
+    AddItem(player, "Hi-Potion", 100, 982982);
+    AddItem(player, "Hammer", 150, 4);
+    AddItem(player, "Dagger", 150, 3);
+    AddItem(player, "Sword", 150, 1);
 
     int number_of_items = 6;
 
@@ -173,12 +185,12 @@ int main()
     // Sleep(1000);
 
     // Typetext("Please enter your name:\n");
-    // scanf("%19s", player.name);
+    // scanf("%19s", player->name);
 
-    // int length_player_name = strlen(player.name);
+    // int length_player_name = strlen(player->name);
     // char massage[] = {"Your name is "};
 
-    // strcat(massage, player.name);
+    // strcat(massage, player->name);
 
     // printf("You have %d characters in ur name.\n", length_player_name);
     // Typetext(massage);
@@ -204,7 +216,7 @@ int main()
     //         char player_new_name[20];
 
     //         scanf("%19s", player_new_name);
-    //         strcpy(player.name, player_new_name);
+    //         strcpy(player->name, player_new_name);
 
     //         printf("Your new name is \"%s\".\n");
     //         Sleep(2000);
@@ -249,7 +261,7 @@ int main()
             }
 
         case 2:
-            Inventory_UI(Inventory, number_of_items);
+            Inventory_UI(player, number_of_items);
 
             printf("If u want to sort ur inventory(change ur item's quantity) by quantity using BubbleSort, pls enter \"ok\".\n");
 
@@ -257,8 +269,8 @@ int main()
 
             if (strcmp(Inventory_Choice, "ok") == 0)
             {
-                BubbleSort(Inventory, number_of_items);
-                Inventory_UI(Inventory, number_of_items);
+                BubbleSort(player, number_of_items);
+                Inventory_UI(player, number_of_items);
 
                 Typetext("Enter \"Leave\" if u are sure u want to leave.\n");
 
@@ -296,12 +308,12 @@ int main()
             else if (Shop_Choice >= 1 && Shop_Choice <= 6)
             {
                 int item = Shop_Choice - 1;
-                if (player.gold >= Shop_items_prices[item])
+                if (player->gold >= Shop_items_prices[item])
                 {
-                    player.gold -= Shop_items_prices[item];
+                    player->gold -= Shop_items_prices[item];
                     printf("You bought %s successfully.\n"
                            "You've left %d G.\n",
-                           Shop_items_names[item], player.gold);
+                           Shop_items_names[item], player->gold);
                 }
                 else
                 {
@@ -426,7 +438,7 @@ int main()
         getchar();
     }
 
-    free(Inventory);
+    free(player);
 }
 
 // ===== Functions =====
@@ -449,7 +461,7 @@ void Menu(void)
            "╚══════════════════════════════╝\n");
 }
 
-void Character_Status(status player)
+void Character_Status(status *player)
 {
     printf("╔══════════════════════════════╗\n"
            "║          Characters          ║\n"
@@ -464,17 +476,17 @@ void Character_Status(status player)
            "╠══════════════════════════════╣\n"
            "║ Gold: %-23d║\n"
            "╚══════════════════════════════╝\n",
-           player.name, player.hp, player.mp, player.level, player.atk, player.def, player.gold);
+           player->name, player->hp, player->hp, player->level, player->atk, player->def, player->gold);
 }
 
-void Inventory_UI(const Item Inventory[], int number_of_items)
+void Inventory_UI(status *player, int number_of_items)
 {
     printf("╔══════════════════════════════╗\n"
            "║          INVENTORY           ║\n"
            "╠══════════════════════════════╣\n");
     for (int i = 0; i < number_of_items; i++)
     {
-        printf("║ %d. %-12s: %-12d║\n", i + 1, Inventory[i].name, Inventory[i].quantity);
+        printf("║ %d. %-12s: %-12d║\n", i + 1, player->inventory[i].name, player->inventory[i].quantity);
     }
 
     printf("╚══════════════════════════════╝\n");
@@ -539,18 +551,18 @@ void Save_Load(void)
     printf("Save / Load is not implemented yet.\n");
 }
 
-void BubbleSort(Item Inventory[], int number_of_items)
+void BubbleSort(status *player, int number_of_items)
 {
 
     for (int i = 0; i < number_of_items - 1; i++)
     {
         for (int j = 0; j < number_of_items - 1; j++)
         {
-            if (Inventory[j].quantity > Inventory[j + 1].quantity)
+            if (player->inventory[j].quantity > player->inventory[j + 1].quantity)
             {
-                Item temp = Inventory[j + 1];
-                Inventory[j + 1] = Inventory[j];
-                Inventory[j] = temp;
+                Item temp = player->inventory[j + 1];
+                player->inventory[j + 1] = player->inventory[j];
+                player->inventory[j] = temp;
             }
         }
     }
@@ -591,38 +603,52 @@ void clearScreen(void)
     system("cls");
 }
 
+void AddItem(status *player, char name[], int price, int quantity)
+{
+    // Create item
+    Item *NewItem = malloc(sizeof(Item));
+
+    strcpy(NewItem->name, name);
+    NewItem->price = price;
+    NewItem->quantity = quantity;
+    
+    // Add item into the inventory
+    NewItem->next = player->inventory;
+    player->inventory = NewItem;
+}
+
 // Damn we can use array here?
 // why did I even ask AI after typing these word by word.
 /*
 if (Shop_Choice == 1)
-    player.gold >= Sword
-        ? (player.gold -= Sword,
-           printf("You bought a Sword Successfully.\nYou've left %d G.\n", player.gold))
+    player->gold >= Sword
+        ? (player->gold -= Sword,
+           printf("You bought a Sword Successfully.\nYou've left %d G.\n", player->gold))
         : (printf("Ummm...I think u don't have enough money..."));
 else if (Shop_Choice == 2)
-        player.gold >= Orb
-            ? (player.gold -= Orb,
-               printf("You bought an Orb successfully.\nYou've left %d G.\n", player.gold))
+        player->gold >= Orb
+            ? (player->gold -= Orb,
+               printf("You bought an Orb successfully.\nYou've left %d G.\n", player->gold))
             : (printf("I don't think u have enough money.\n"));
 else if (Shop_Choice == 3)
-        player.gold >= Hammer
-                ? (player.gold -= Hammer,
-                   printf("You bought a Hammer successfully.\nYou've left %d G.\n", player.gold))
+        player->gold >= Hammer
+                ? (player->gold -= Hammer,
+                   printf("You bought a Hammer successfully.\nYou've left %d G.\n", player->gold))
                 : (printf("I don't think u have enough money..."));
 else if (Shop_Choice == 4)
-        player.gold >= Dagger
-                ? (player.gold -= Dagger,
-                   printf("You bought a Dagger successfully.\nYou've left %d G", player.gold))
+        player->gold >= Dagger
+                ? (player->gold -= Dagger,
+                   printf("You bought a Dagger successfully.\nYou've left %d G", player->gold))
                 : (printf("I don't think u have enough money..."));
 else if (Shop_Choice == 5)
-        player.gold >= Potion
-                ? (player.gold -= Potion,
-                   printf("You bought a Potion successfully.\nYou've left %d G", player.gold))
+        player->gold >= Potion
+                ? (player->gold -= Potion,
+                   printf("You bought a Potion successfully.\nYou've left %d G", player->gold))
                 : (printf("I don't really think u got enough money."));
 else if (Shop_Choice == 6)
-        player.gold >= Hi_Potion
-                ? (player.gold -= Hi_Potion,
-                   printf("You bought a Hi-Potion successfully.\nYou've left %d G", player.gold))
+        player->gold >= Hi_Potion
+                ? (player->gold -= Hi_Potion,
+                   printf("You bought a Hi-Potion successfully.\nYou've left %d G", player->gold))
                 : (printf("I don't really think u got enough money."));
 else if (Shop_Choice == 7)
         printf("You left the store.");

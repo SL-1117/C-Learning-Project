@@ -1,46 +1,81 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 
-typedef struct
+struct Player 
 {
-    int radius;
-    double area;
-    double surfaceArea;
-    double volume;
-} Circle;
+    char name[20];
+    int hp;
+    int mp;
+    int race;
+    struct Item *inventory;
+};
 
-int main(void)
+struct Item
 {
-    Circle circle;
-    circle.radius = 3;
-    const float PI = 3.14159;
+    char name[30];
+    int price;
+    int quantity;
 
-    circle.area = PI * pow(circle.radius, 2);
-    circle.surfaceArea = 4.0 * PI * pow(circle.radius, 2);
-    circle.volume = (4.0 / 3.0) * PI * pow(circle.radius, 3);
+    struct Item *next;
+};
 
-    printf("The circle's area is %lf.\n"
-           "The circle's surfaceArea is %lf.\n"
-           "The circle's volume is %lf.\n",
-           circle.area, circle.surfaceArea, circle.volume);
+void AddItem(struct Player *player, char name[], int price) 
+{
+    // Create item
+    struct Item *NewItem;
 
-    char *messages = malloc(25 * sizeof(char));
-
-    if (messages == NULL)
-    {
-        printf("Memory allocation failed.\n");
-        return 1;
-    }
+    NewItem = malloc(sizeof(struct Item));
     
-    fgets(messages, 25, stdin);
-    messages[strcspn(messages, "\n")] = '\0';
+    strcpy(NewItem->name, name);
+    NewItem->price = price;
+    NewItem->quantity = 1;
 
-    printf("%s\n", messages);
+    // Add item into the inventory
+    NewItem->next = player->inventory;
+    player->inventory = NewItem;
+}
 
-    free(messages);
-    getchar();
+int main(void) 
+{
+    struct Player *player;
+    
+    // Create player
+    player = malloc(sizeof(struct Player));
+    player->inventory = NULL;
+
+    // Add items
+    AddItem(player, "Potion", 50);
+    AddItem(player, "Sword", 100);
+    AddItem(player, "Orb", 100);
+
+    // Print the linked list
+    struct Item *current;
+    struct Item *next;
+    current = player->inventory;
+
+    while (current != NULL)
+    {
+        printf("%s\n", current->name);
+
+        next = current->next;
+
+        free(current);
+        
+        current = next;
+    }
+
+    free(player);
 
     return 0;
+
 }
+
+    // // Inventory_items
+    // Item *Inventory = malloc(25 * sizeof(Item));
+    // Inventory[0] = (Item){"Sword", 1};
+    // Inventory[1] = (Item){"Potion", 3};
+    // Inventory[2] = (Item){"Hi-Potion", 982982};
+    // Inventory[3] = (Item){"Orb", 1};
+    // Inventory[4] = (Item){"Hammer", 4};
+    // Inventory[5] = (Item){"Dagger", 3};
