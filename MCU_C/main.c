@@ -1,183 +1,123 @@
-#include <stdio.h>
+// #include <stdio.h>
+// #include "NUC100Series.h"
+// #include "GPIO.h"
+// #include "SYS.h"
+// #include "Seven_Segment.h"
+// #include "Scankey.h"
 
-#include "MCU.h"
-#include "SYS.h"
-#include "Scankey.h"
-#include "Seven_Segment.h"
-#include "GPIO.h"
-#include "NCU100Series.h"
+#define B 7 
+#define C 8 
+#define PLUS_KEY 9
 
-void Buzzer_Beep(int times)
-{
-    for (int i = 0; i < times; i++)
-    {
-        Buzzer = 0;
-        CLK_SysTickDelay(100000);
-        Buzzer = 1;
-        CLK_SysTickDelay(100000);
-    }
-}
+int num1 = 0;
+int num2 = 0;
+int state = 0;
 
-void Show_Binary(int num)
-{
-    switch(num)
-    {
-        case 1:
-            ShowSevenSegment(3, 1);
-            ShowSevenSegment(2, 1);
-            ShowSevenSegment(1, 1);
-            ShowSevenSegment(0, 0);
-            PC15 = 1; PC14 = 1; PC13 = 1; PC12 = 0;
-            CLK_SysTickDelay(3000000);
-            break;
+int GetDisplayNum(void);
+void Refresh_7seg(int value);
+void AddNum(int digit, int *num);
 
-        case 2:
-            ShowSevenSegment(3, 1);
-            ShowSevenSegment(2, 1);
-            ShowSevenSegment(1, 0);
-            ShowSevenSegment(0, 1);
-            PC15 = 1; PC14 = 1; PC13 = 1; PC12 = 0;
-            CLK_SysTickDelay(3000000);
-            break;
-
-        case 3:
-            ShowSevenSegment(3, 1);
-            ShowSevenSegment(2, 1);
-            ShowSevenSegment(1, 0);
-            ShowSevenSegment(0, 0);
-            PC15 = 1; PC14 = 1; PC13 = 0; PC12 = 0;
-            CLK_SysTickDelay(3000000);
-            break;
-
-        case 4:
-            ShowSevenSegment(3, 1);
-            ShowSevenSegment(2, 0);
-            ShowSevenSegment(1, 1);
-            ShowSevenSegment(0, 1);
-            PC15 = 1; PC14 = 0; PC13 = 1; PC12 = 1;
-            CLK_SysTickDelay(3000000);
-            break;
-        
-        case 5:
-            ShowSevenSegment(3, 1);
-            ShowSevenSegment(2, 0);
-            ShowSevenSegment(1, 1);
-            ShowSevenSegment(0, 0);
-            PC15 = 1; PC14 = 0; PC13 = 1; PC12 = 0;
-            CLK_SysTickDelay(3000000);
-            break;
-        
-        case 6:
-            ShowSevenSegment(3, 1);
-            ShowSevenSegment(2, 0);
-            ShowSevenSegment(1, 0);
-            ShowSevenSegment(0, 1);
-            PC15 = 1; PC14 = 0; PC13 = 0; PC12 = 1;
-            CLK_SysTickDelay(3000000);
-            break;
-        
-        default: 
-            break;
-    }
-}
+void ClearAll(void);
+void BackSpace(int *num);
 
 int main(void)
 {
-    int key;
+    int key = 0;
+    int last_key = 0;
 
     SYS_Init();
 
-    OpenKeyPad();
     OpenSevenSegment();
+    OpenKeyPad();
 
-    GPIO_SetMode(PC, BIT12, GPIO_PMD_OUTPUT);
-    GPIO_SetMode(PC, BIT13, GPIO_PMD_OUTPUT);
-    GPIO_SetMode(PC, BIT14, GPIO_PMD_OUTPUT);
-    GPIO_SetMode(PC, BIT15, GPIO_PMD_OUTPUT);
-
-    while (1)
+    while(1)
     {
         key = Scankey();
 
-        if (key >= 1 && key <= 6)
+        if (last_key >= 1 && last_key <= 6 && key == 0)
         {
-            Buzzer_Beep(key);
-            Show_Binary(key);
+            if (state == 0) AddNum(last_key, &num1);
+            else if (state == 1) AddNum(last_key, &num2);
         }
-    }
 
-    return 0;
-}
+        else if (last_key == B && key == 0)
+        {
+            if (state == 0) BackSpace(&num1);
+            else if (state == 1) BackSpace(&num2);
+        }
 
-//////////////////////////////////////////////
+        else if (last_key == C && key == 0)
+        {
+            ClearAll();
+        }
 
-#include <stdio.h>
-#include "NUC100Series.h"
-#include "GPIO.h"
-#include "SYS.h"
-#include "Seven_Segment.h"
-#include "Scankey.h"
+        else if (last_key == PLUS_KEY && key == 0)
+        {
+            if (state == 0) state = 1;
+            else if (state == 1) state = 2;
+        }
 
-#define BUZZER PB11
+        Refresh_7seg(GetDisplayNum());
 
-void Buzzer_Beep(int times)
-{
-    int i;
+        if (state == 2)
+        {
+            while (key != C)
+            {
+                key = Scankey();
+            }
 
-    for (i = 0; i < times; i++)
-    {
-        BUZZER = 0;
-        CLK_SysTickDelay(100000);
+            ClearAll();
+        }
 
-        BUZZER = 1;
-        CLK_SysTickDelay(100000);
-    }
-}
-
-void ShowBinary(int number)
-{
-    int i;
-    int bit;
-
-    for (i = 3; i >= 0; i--)
-    {
-        bit = (number >> i) & 1;
-
-        ShowSevenSegment(i, bit);
-
-        CLK_SysTickDelay(2000);
-
-        CloseSevenSegment();
+        last_key = key;
     }
 }
 
-int main(void)
+void Refresh_7seg(int value)
 {
-    int key;
-    int number = 0;
+    static int digit = 0;
 
-    SYS_Init();
+    int d0 = value % 10;
+    int d1 = (value / 10) % 10;
+    int d2 = (value / 100) % 10;
+    int d3 = (value / 1000) % 10;
 
-    OpenKeyPad();
-    OpenSevenSegment();
+    CloseSevenSegment();
 
-    GPIO_SetMode(PB, BIT11, GPIO_PMD_OUTPUT);
-    BUZZER = 1;
+    if (digit == 0 && value != 0)           ShowSevenSegment(0, d0);
+    else if (digit == 1 && value >= 10)     ShowSevenSegment(1, d1);
+    else if (digit == 2 && value >= 100)    ShowSevenSegment(2, d2);
+    else if (digit == 3 && value >= 1000)   ShowSevenSegment(3, d3);
 
-    while (1)
-    {
-        key = ScanKey();
+    CLK_SysTickDelay(1000);
 
-        if (key >= 1 && key <= 6)
-        {
-            number = key;
+    digit++;
+    
+    if (digit >= 4) digit = 0;
+}
 
-            Buzzer_Beep(key);
-        }
+int GetDisplayNum(void)
+{
+    if (state == 0) return num1;
+    if (state == 1) return num2;
 
-        if (number >= 1 && number <= 6)
-        {
-            ShowBinary(number);
-        }
-    }
+    return num1 + num2;
+}
+
+void AddNum(int digit, int *num)
+{
+    *num = *num * 10 + digit;
+}
+
+void ClearAll(void)
+{
+    state = 0;
+    num1 = 0;
+    num2 = 0;
+    CloseSevenSegment();
+}
+
+void BackSpace(int *num)
+{
+    *num = *num / 10;
 }
