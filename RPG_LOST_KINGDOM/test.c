@@ -1,33 +1,46 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <string.h>
+#include <math.h>
 
-int main() {
+typedef struct
+{
+    int radius;
+    double area;
+    double surfaceArea;
+    double volume;
+} Circle;
 
-    int Inventory_quantity[] = {
-        10, 9, 330, 20898, 29
-    };
+int main(void)
+{
+    Circle circle;
+    circle.radius = 3;
+    const float PI = 3.14159;
 
-    int Inventory_num = sizeof(Inventory_quantity) / sizeof(Inventory_quantity[0]);
+    circle.area = PI * pow(circle.radius, 2);
+    circle.surfaceArea = 4.0 * PI * pow(circle.radius, 2);
+    circle.volume = (4.0 / 3.0) * PI * pow(circle.radius, 3);
 
-    int *Inventory = malloc(Inventory_num * sizeof(int));
+    printf("The circle's area is %lf.\n"
+           "The circle's surfaceArea is %lf.\n"
+           "The circle's volume is %lf.\n",
+           circle.area, circle.surfaceArea, circle.volume);
 
-    if (Inventory == NULL)
+    char *messages = malloc(25 * sizeof(char));
+
+    if (messages == NULL)
     {
-        printf("Allocation failed.\n");
+        printf("Memory allocation failed.\n");
         return 1;
     }
+    
+    fgets(messages, 25, stdin);
+    messages[strcspn(messages, "\n")] = '\0';
 
-    Inventory[0] = 1;
-    Inventory[1] = 2;
-    Inventory[2] = 3;
+    printf("%s\n", messages);
 
-    for (int i = 0; i < Inventory_num; i++) 
-    {
-        printf("%d\n", Inventory[i]);
-    }
-
-    free(Inventory);
+    free(messages);
+    getchar();
 
     return 0;
 }

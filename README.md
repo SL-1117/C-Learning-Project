@@ -1,214 +1,106 @@
 # C-Learning-Project
 
-2026/9/28 Monday
+2026/9/28 Tuesday
 
-This is the eleventh day I started learning C by making a game.
+This is the twelveth day I started learning C by making a game.
 9/25 - 9/27 was Moon Festival, and I wasn't at home. 
 
+### fgets
+This is basically the same as scanf, but it keeps the spaces that the user enters
 
-### define
-what's #define?
-It means we r giving a certain number a name.
+# strcspn
+It's finding the pos of the first character in a string that matches any character from another string.
 
-#include <stdio.h>
+fgets(noun, sizeof(noun), stdin);
+noun[strlen(noun) - 1] = '\0';
 
-#define PLAYER_MAX_HP 1000
-#define PLAYER_MAX_MP 1000
-#define PLAYER_MAX_LEVEL 99
-#define PLAYER_MAX_ATK 100
-#define PLAYER_MAX_DEF 100
+    char *messages = malloc(25 * sizeof(char));
 
-typedef struct 
-{
-  int hp;
-  int mp;
-  int level;
-  int atk;
-  int def;
-}Player_Status;
-
-int main(void) 
-{
-  Player_Status player;
-
-  player.hp = PLAYER_MAX_HP;
-  player.mp = PLAYER_MAX_MP;
-  player.level = PLAYER_MAX_LEVEL;
-  player.atk = PLAYER_MAX_ATK;
-  player.def = PLAYER_MAX_DEF;
-
-  return 0;
-}
-
-### enum 
-It's for us to give a meaningful name for a limited set of numbers.
-
-#include <stdio.h>
-
-typedef enum
-{
-  MAGE, ASSASSIN, WARRIOR, PRIEST, ARCHER
-}Class;
-
-int main(void) 
-{
-  Class Player_class = MAGE;
-
-  if (Player_class == MAGE)
-  {
-    printf("Your class is mage.\n");
-  }
-  else if (Player_class == ASSASSIN)
-  {
-    printf("Your class is ASSASSIN.\n");
-  }
-  else if (Player_class == PRIEST) 
-  {
-    printf("Your class is priest.\n");
-  }
-  else if (Player_class == WARRIOR) 
-  {
-    printf("Your class is warrior.\n");
-  }
-  else 
-  {
-    printf("Your class is archer.\n");
-  }
-}
-
-### srand 
-It's providing the odds for the program.
-
-#include <stdio.h>
-#include <time.h>
-
-int main(void) 
-{
-  srand(time(NULL));
-
-  int event = rand() % 100;
-
-  if (event < 30)
-  {
-    int enemy = rand() % 4;
-
-    switch(enemy)
+    if (messages == NULL)
     {
-      case 0:
-        printf("You encountered slime.\n");
-        break;
-
-      case 1:
-        printf("You encountered goblin.\n");
-        break;
-      
-      case 2:
-        printf("You encountered orc.\n");
-        break;
-      
-      case 3:
-        printf("You encountered wolf.\n");
-        break;
-      
-      default:
-        break;
+        printf("Memory allocation failed.\n");
+        return 1;
     }
-  }
-  else if (event < 40)
-  {
-    printf("You found the treasure chest!\n");
-  }
-  else if (event < 45)
-  {
-    printf("You found the hidden path!\n");
-  }
-  else 
-  {
-    printf("The road is quiet.\n");
-  }
+    
+    fgets(messages, 25, stdin);
+    messages[strcspn(messages, "\n")] = '\0';
 
-  return 0;
-}
+    printf("%s\n", messages);
 
-### struct
-It's for us storing related types of data.
-btw we can even combine it with enum.
+    free(messages);
+    getchar();
 
-#include <stdio.h>
-#include <string.h>
+    return 0;
 
-typedef enum
-{
-  MAGE, ASSASSIN, WARRIOR, PRIEST, ARCHER
-}Class;
-
-typedef struct 
-{
-  char name[20];
-  Class class;
-  int hp;
-  int mp;
-  int level;
-  int atk;
-  int def;
-}Player_Status;
-
-int main(void) 
-{
-  Player_Status player;
-  player.class = PRIEST;
-  strcpy(player.name, "Eren");
-  player.hp = 100;
-  player.mp = 100;
-  player.level = 1;
-  player.atk = 10;
-  player.def = 10;
-
-  return 0;
-}
-
-### malloc 
-It's for dynamically allocate the memory.
+### math
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
-typedef struct
+int main(void)
 {
-  char name[20];
-  int quantity;
-}Item; 
+  int a = 2;
+  float b = 3.39;
+  int c = -3;
+  double d = 5;
 
-int main(void) 
-{
-  Item *Inventory = malloc(25 * sizeof(Item));
+  a = sqrt(a);
+  a = pow(a, 3);
+  b = round(b);
+  b = ceil(b);
+  b = floor(b);
+  c = abs(c);
+  d = log(d);
 
-  Inventory[0] = (Item){"Sword", 1};
-  Inventory[1] = (Item){"Hammer", 2};
-  Inventory[2] = (Item){"Potion", 5};
-  Inventory[3] = (Item){"Hi-Potion", 982982};
-  Inventory[4] = (Item){"Dagger", 4};
-
-  free(Inventory);
+  printf("%d\n", a);
+  printf("%f\n", b);
+  printf("%d\n", c);
+  printf("%lf\n", d);
 
   return 0;
 }
 
-### C
-I'mma put these concepts in my main program.
-and ofc imma learn them thoroughly before doing that.
+### circle calculator
 
-srand
-#define
-typedef enum
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+typedef struct
+{
+  int radius;
+  double area;
+  double surfaceArea;
+  double volume;
+}Circle;
+
+int main(void)
+{
+  Circle circle;
+  circle.radius = 3;
+  const float PI = 3.14159;
+
+  circle.area = PI * pow(circle.radius, 2);
+  circle.surfaceArea = 4.0 * PI * pow(circle.radius, 2);
+  circle.volume = (4.0 / 3.0) * PI * pow(circle.radius, 3);
+
+  printf("The circle's area is %lf.\n"
+         "The circle's surfaceArea is %lf.\n"
+         "The circle's volume is %lf.\n", 
+          circle.area, circle.surfaceArea, circle.volume);
+  
+  return 0;
+}
+
+
 Fibonacci sequence
-malloc / calloc / realloc
-strcmp / strcpy / strlen / strcat
+
 
 ### note
 I combined almost everything I've learned into the main program except for Fibonacci bc it's not that important for the moment, I can js combine it later.
 And I think I got a general idea about what I'm learning rn and how to use them.
-I also think we can start to learn the roadmap of Data Structure tmr, especially tring to put the liked list in my code. 
+I also think we can start to learn the roadmap of Data Structure tmr, especially try to put the liked list in my code. 
 
 
 ### The roadmap of Data Structure(but dis is not for today tho.)
