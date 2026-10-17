@@ -1,81 +1,78 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <windows.h>
+#include <stdbool.h>
 
-struct Player 
+bool age18Check(int age)
 {
-    char name[20];
-    int hp;
-    int mp;
-    int race;
-    struct Item *inventory;
-};
+    if (age >= 18) return true;
+    else return false;
+}
 
-struct Item
+bool age18Check2(int age)
 {
-    char name[30];
-    int price;
-    int quantity;
+    return age >= 18;
+}
 
-    struct Item *next;
-};
-
-void AddItem(struct Player *player, char name[], int price) 
+char AttackCheck(void) 
 {
-    // Create item
-    struct Item *NewItem;
+    int hp = 10;
 
-    NewItem = malloc(sizeof(struct Item));
-    
-    strcpy(NewItem->name, name);
-    NewItem->price = price;
-    NewItem->quantity = 1;
-
-    // Add item into the inventory
-    NewItem->next = player->inventory;
-    player->inventory = NewItem;
+    do {
+        printf("Attack!\n");
+        hp -= 1;
+        Sleep(1000);
+    } while (hp > 0);
 }
 
 int main(void) 
 {
-    struct Player *player;
-    
-    // Create player
-    player = malloc(sizeof(struct Player));
-    player->inventory = NULL;
+    bool islocked = true;
 
-    // Add items
-    AddItem(player, "Potion", 50);
-    AddItem(player, "Sword", 100);
-    AddItem(player, "Orb", 100);
+    char name[20] = "";
+    char operator = '\0';
 
-    // Print the linked list
-    struct Item *current;
-    struct Item *next;
-    current = player->inventory;
+    float weight = 0.0f;
+    float height = 0.0f;
+    float rnum = 10.00;
 
-    while (current != NULL)
+    double num1 = 0.0;
+    double num2 = 21.34;
+    double result = 0.0;
+
+    int age = 3;
+
+    printf("Enter ur name: \n");
+    fgets(name, sizeof(name), stdin);
+    name[strlen(name) - 1] = '\0';
+
+    printf("ur name is %s\n", name);
+    printf("ur age is %.2lf\n", age);
+
+    if (islocked == true)
     {
-        printf("%s\n", current->name);
+        if (age18Check2(18))
+        {
+            printf("You are already 18.\n");
+        }
 
-        next = current->next;
+        else 
+        {
+            printf("You are not 18 yet.\n");
+        }
 
-        free(current);
-        
-        current = next;
+        printf("You ara locked.\n");
     }
 
-    free(player);
+    else if (islocked == false)
+    {
+        printf("You are not a locked.\n");
+    }
 
-    return 0;
+    printf("num1's value is %lf\n", num1);
+    printf("num2's value is %.2f\n", num2);
 
+    AttackCheck();
+
+    getchar();
 }
-
-    // // Inventory_items
-    // Item *Inventory = malloc(25 * sizeof(Item));
-    // Inventory[0] = (Item){"Sword", 1};
-    // Inventory[1] = (Item){"Potion", 3};
-    // Inventory[2] = (Item){"Hi-Potion", 982982};
-    // Inventory[3] = (Item){"Orb", 1};
-    // Inventory[4] = (Item){"Hammer", 4};
-    // Inventory[5] = (Item){"Dagger", 3};

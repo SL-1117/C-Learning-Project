@@ -1,113 +1,113 @@
 # C-Learning-Project
 
-2026/10/11 Sunday
+2026/10/12 Monday
 
-This is the twenty-fourth day I started learning C by making a game.
-
-# note
-I'm thinking...so basically I learned how to code interrupt tdy, it was actually not that complicated as what I thought.
+This is the twenty-fifth day I started learning C by making a game.
 
 ### MCU
-// Create irq every 1ms
-SysTick_Config(SystemCoreClock / 1000);
-
-// It allows CPU to respond to interrupts that are not blocked or disalbed.
-__enable_irq();
-
-// Interrupt
-An interrupt allows the MCU to handle an event without requiring while(1) loop to constantly check for it
-However, an interrupt does temporarily interrupt the main program when its handler executes.
-
+Finally, I wrapped all the things in my mind around and then figured out all the things that we r doing about the interrput. 
 
 ### C
-I'm gonna take the things that I learned from MCU into my main RPG project(include the new things I'mma learn in the Full-C-Courses). 
+I'm gonna take the things that I learned from MCU into my main RPG project(include the new things I'mma learn in the Full-C-Courses).
+
+# bool
+#include <stdbool.h>
+
+bool isAdult(int age)
+{
+    return age >= 18;
+}
+
+bool islocked = true, false;
+
+if (isAdult(19))
+    printf("You are an adult.\n");
+else
+    printf("You are not adult.\n");
+
+# do while
+the only difference between do while and while is the order.
+the order to execute the program and check the value.
+
+void AttackCheck(void) 
+{
+    do {
+        printf("You are attacked!");
+        hp -= 2;
+    } while (hp > 0);
+}
+
+# float
+The way we need to declare the float number.
+
+float num1 = 0.0f;
+float num2 = 11.23f;
+
+# double 
+The way we need to declare the double number.
+
+double num1 = 0.0;
+double num2 = 20.34;
+
+# char array
+char name[20] = "";
+char choice = '\0';
+
+# fget
+js for reviewing
+
+char name[20] = "";
+
+fget(name, sizeof(name), stdin);
+name[strlen[name] - 1] = '\0';
+
+printf("%s", name);
 
 # static 
 static int digit = 0;
 
 local variable = remember its value between function calls.
 
-# linked list
-it's a sequence of nodes which are connected by pointers.
-
+# Fibonnaci 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-typdef struct Item
+void Fibonnaci(int num_of_sequence, int arr[])
 {
-  char name[30];
-  int price;
-  int quantity;
+    if (num_of_sequence <= 0)
+    {
+        printf("Invalid num\n");
+        return;
+    }
 
-  struct Item *next;
-} Item;
+    if (num_of_sequence >= 1) arr[0] = 1;
+    if (num_of_sequence >= 2) arr[1] = 1;
 
-struct Player player 
-{
-  char name[20];
-  int hp;
-  int mp;
-  int level;
-  struct Item *inventory;
-};
+    if (num_of_sequence >= 3)
+    {
 
-addItem(struct Player *player, char name[], int price, int quantity)
-{
-  // Create Item
-  struct Item *newItem = malloc(sizeof(struct Item));
+            for (int j = 0; j < num_of_sequence; j++)
+            {
+                arr[j + 2] = arr[j + 1] + arr[j]; 
+            }
 
-  strcpy(newItem->name, name);
-  newItem->price = price;
-  newItem->quantity = quantity;
-
-  // Add item
-  newItem->next = player->inventory;
-  player->inventory = newItem;
+    }
 }
 
-int main(void) 
+int main(void)
 {
-  struct Player *player;
+    int num_of_sequence = 0;
+    int arr[30];
 
-  player = malloc(sizeof(struct Player));
-  player->inventory = NULL;
+    printf("Pls enter the number of the Fibonnaci that You wish down below.\n");
+    scanf("%d", &num_of_sequence);
 
-  addItem(player, char name[], int price, int quantity);
+    Fibonnaci(num_of_sequence, arr);
 
-  struct Item current;
-  struct Item next;
-  current = player->inventory;
-
-  while (current->next != NULL)
-  {
-    printf("%s\n", current->name);
-
-    next = current->next;
-
-    free(current);
-
-    current = next;
-  }
-
-  free(player);
+    for (int i = 0; i < num_of_sequence; i++)
+    {
+        printf("%d\n", arr[i]);
+    }
 }
-
-
-# note
-and I replace the old Inventory logic and player status logic with the new things I learnd, which is linked list.
-
-    // // Inventory_items
-    // Item *Inventory = malloc(25 * sizeof(Item));
-    // Inventory[0] = (Item){"Sword", 1};
-    // Inventory[1] = (Item){"Potion", 3};
-    // Inventory[2] = (Item){"Hi-Potion", 982982};
-    // Inventory[3] = (Item){"Orb", 1};
-    // Inventory[4] = (Item){"Hammer", 4};
-    // Inventory[5] = (Item){"Dagger", 3};
-
-
-### Fibonacci sequence
 
 
 ### The roadmap of Data Structure(but dis is not for today tho.)
