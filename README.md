@@ -1,8 +1,8 @@
 # C-Learning-Project
 
-2026/10/13 Tuesday
+2026/10/14 Wednesday
 
-This is the twenty-sixth day I started learning C by making a game.
+This is the twenty-seventh day I started learning C by making a game.
 
 
 ### C
@@ -12,67 +12,36 @@ I'm gonna take the things that I learned from MCU into my main RPG project(inclu
 static int digit = 0;
 local variable = remember its value between function calls.
 
-# continue / break
-for (int i = 0; i < 20; i++)
+# printf("%02d", minutes);
+12:02
+
+# char *meridium = (hours <= 12) ? "AM" : "PM";
+#include <stdio.h>
+#include <stdbool.h>
+
+int main(void)
 {
-    if (i == 16)
-    {
-        continue;
-    }
+    int num = 0;
+    bool online = true;
+    int age = 18;
+    int number = 100;
 
-    printf("%d\n", i);
+    int minutes = 2;
+    int hours = 17;
+    char *meridium = (hours <= 12) ? "AM" : "PM";
+
+    printf("%s\n", (num == 0) ? "Yes" : "No");
+    printf("%s\n", (online == true) ? "The player is online." : "The player is not online.");
+    printf("%s\n", (age >= 18) ? "Adult" : "Children");
+    printf("%s\n", (number % 2 == 0) ? "Odd" : "Even");
+    printf("%02d:%02d %s", hours, minutes, meridium);
+
+    getchar();
 }
-
-for (int i = 0; i < 20; i++)
-{
-    if (i == 16)
-    {
-        break;
-    }
-
-    printf("%d\n", i);
-}
-
-# char declare
-int num[] = {0};
-int num[] = {1, 2, 3, 4, 5};
-
-char num[] = '\0';
-char num[] = "Thomas";
-
-char phone_keypad[][20] = {{'1', '2', '3'},
-                           {'4', '5', '6'},
-                           {'7', '8', '9'}, 
-                           {'*', '0', '#'}};
-char fruits[][100] = {"Apple", 
-                      "Banana", 
-                      "Coconut"};
-
-fruits[0][0] = 'e';
-fruits[0][4] = 'A';
-
-# include <ctype.h>
-int main(void) 
-{
-    char guess = '\0';
-
-    scanf(" %c", &guess);
-
-    guess = toupper(guess);
-
-    printf("%c", guess);
-}
-
-# scanf(" %c", guess);
-
-# printf("%4d", num);
-   2
 
 
 ###
 #include <stdio.h>
-#include <string.h>
-#include <windows.h>
 #include <stdbool.h>
 #include <ctype.h>
 
