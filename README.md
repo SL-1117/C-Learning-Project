@@ -1,101 +1,39 @@
 # C-Learning-Project
 
-2026/10/17 Saturday
+2026/10/18 Sunday
 
-This is the thirtieth day I started learning C by making a game.
+# note
+Finished the c courses, imma learn the data structure for now.
+I put the roadmap here for a pretty long time, finally I can learn it.
 
-# C note
-I'm gonna take the things that I learned from MCU into my main RPG project(include the new things I'mma learn in the Full-C-Courses).
+I'm gonna js organize and sort out my mind about what I'm going to learn and how I'm gonna do it after finishing all the things I got rn.
 
-# calloc
+Btw I think I can finally learn Python, this is pretty exciting.
+
+# The roadmap of Data Structure(but dis is not for today tho.)
 ```c
-#include <stdio.h>
-#include <stdlib.h>
-
-int main(void)
-{
-    int input = 0;
-
-    scanf("%d", &input);
-
-    int *memory = calloc(input, sizeof(int));
-
-    if (memory == NULL)
-    {
-        printf("Memory allocation failed.");
-        return 1;
-    }
-
-    for (int i = 0; i < input; i++)
-    {
-        printf("%d ", memory[i]);
-    }
-
-    return 0;
-}
-```
-
-
-# realloc 
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-
-int main(void)
-{
-    uint32_t input1 = 0;
-
-    printf("Pls enter the first allocation number.\n(The number of the grades)\n");
-    scanf("%d", &input1);
-
-    float *memory = malloc(input1 * sizeof(float));
-
-    if (memory == NULL)
-    {
-        printf("Memory allocation falied.");
-        return 1;
-    }
-
-    printf("%d\n", input1);
-
-    for (int i = 0; i < input1; i++)
-    {
-        printf("grade%d: ", i + 1);
-        scanf("%f", &memory[i]);
-    }
-
-    int input2 = 0;
-    printf("\nPls enter a new number that you want to allocate: ");
-    scanf("%d", &input2);
-
-    float *temp = realloc(memory, input2 * sizeof(float));
-
-    if (temp == NULL) 
-    {
-        printf("Memory allocation failed.");
-    } 
-    else 
-    {
-        memory = temp;
-        temp = NULL;
-
-        for (int i = input1; i < input2; i++)
-        {
-            printf("grade%d: ", i + 1);
-            scanf("%f", &memory[i]);
-        }
-
-        for (int i = 0; i < input2; i++)
-        {
-            printf("%.2f ", memory[i]);
-        }
-    }
-
-    free(memory);
-
-    return 0;
-}
+                           DATA STRUCTURES
+                                  │
+          ┌───────────────────────┼────────────────────────┐
+          │                       │                        │
+          ▼                       ▼                        ▼
+       LINEAR                HIERARCHICAL              NETWORK
+          │                       │                        │
+    ┌─────┼─────┐           ┌─────┼─────┐                  │
+    │     │     │           │     │     │                  │
+    ▼     ▼     ▼           ▼     ▼     ▼                  ▼
+  Array  List  Stack       Tree   Heap  Trie              Graph
+    │     │     │
+    │     │     └── Queue
+    │     │          │
+    │     │          ├── Circular Queue
+    │     │          └── Priority Queue
+    │     │
+    │     ├── Singly Linked List
+    │     ├── Doubly Linked List
+    │     └── Circular Linked List
+    │
+    └── Dynamic Array
 ```
 
 
@@ -306,28 +244,3 @@ void plusPlayerGold(int *gold)
 ```
 
 
-# The roadmap of Data Structure(but dis is not for today tho.)
-```c
-                           DATA STRUCTURES
-                                  │
-          ┌───────────────────────┼────────────────────────┐
-          │                       │                        │
-          ▼                       ▼                        ▼
-       LINEAR                HIERARCHICAL              NETWORK
-          │                       │                        │
-    ┌─────┼─────┐           ┌─────┼─────┐                  │
-    │     │     │           │     │     │                  │
-    ▼     ▼     ▼           ▼     ▼     ▼                  ▼
-  Array  List  Stack       Tree   Heap  Trie              Graph
-    │     │     │
-    │     │     └── Queue
-    │     │          │
-    │     │          ├── Circular Queue
-    │     │          └── Priority Queue
-    │     │
-    │     ├── Singly Linked List
-    │     ├── Doubly Linked List
-    │     └── Circular Linked List
-    │
-    └── Dynamic Array
-```
