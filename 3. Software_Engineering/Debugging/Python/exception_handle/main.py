@@ -1,0 +1,1 @@
+hp = int(input("Enter HP: "))
