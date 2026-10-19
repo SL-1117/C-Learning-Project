@@ -1,24 +1,18 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 int main(void)
 {
-    int input = 0;
+    int player_height = 170;
+    int player_weight = 0;
 
-    scanf("%d", &input);
-
-    int *memory = calloc(input, sizeof(int));
-
-    if (memory == NULL)
+    if (scanf("%d", &player_weight) != 1)
     {
-        printf("Memory allocation failed.");
+        printf("Invalid input.");
         return 1;
     }
 
-    for (int i = 0; i < input; i++)
-    {
-        printf("%d ", memory[i]);
-    }
+    printf("%d", player_height);
+    printf("Player weight is %d", player_weight);
 
     return 0;
-}
+} 
