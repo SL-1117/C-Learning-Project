@@ -1,6 +1,6 @@
 # Programming-Ability-Project
 
-2026/10/18 Sunday
+2026/10/20 Tuesday
 
 # note
 Finished the c courses, imma learn the data structure for now.
@@ -8,7 +8,197 @@ I put the roadmap here for a pretty long time, finally I can learn it.
 
 I'm gonna js organize and sort out my mind about what I'm going to learn and how I'm gonna do it after finishing all the things I got rn.
 
-Btw I think I can finally learn Python, this is pretty exciting.
+
+# debug / breakpoints  
+```c
+def sum_of_list(x: list):
+    sum = 0
+
+    for i in x:
+        sum += i
+
+    return sum
+
+input_list = [10,20,30,40]
+res_sum = sum_of_list(input_list)
+
+print(res_sum)
+```
+
+
+# debug / watch_panel
+```c
+def calcualate_average(grades: list):
+
+    total_items = len(grades)
+    total_sum = 0
+
+    for grade in grades:
+        total_sum += grade
+
+    return total_sum / total_items
+
+def is_passed(avg):
+    return avg >= 91
+
+
+grades = [80, 70, 65, 35, 50]
+
+average = calcualate_average(grades)
+status = is_passed(average)
+
+print(f'Average: {average}')
+print(f'Status: {status}')
+
+'''
+data = {
+'name': '',
+cart_items : {
+    [], ''
+}
+}
+'''
+```
+
+
+# debug / call_stack
+```c
+def apply_discount(price):
+
+    return price * 0.05
+
+def checkout(item_price, tax):
+
+    discounted_price = apply_discount(item_price)
+    return discounted_price + tax
+
+filnal_price = checkout(1000, 100)
+print(f'Final price: (final_price)')
+```
+
+
+# debug / conditional breakpoints
+```c
+def square_list(numbers: list):
+
+    for number in numbers:
+        res = number ** 2
+
+        print(f'Square of {number} is - {res}')
+
+numbers = {1, 2, 3, 4, 5, 6, 7, 8}
+square_list(numbers)
+```
+
+
+# debug / logpoint
+```c
+def square_list(numbers: list):
+
+    for number in numbers:
+        res = number ** 2
+
+        print(f'Square of {number} is - {res}')
+
+numbers = {1, 2, 3, 4, 5, 6, 7, 8}
+square_list(numbers)
+```
+
+
+# debug / exceptions
+```c
+# try:
+#     x = 10 / 0
+# except ZeroDivisionError:
+#     print("Handled error")
+
+x = 10/0
+```
+
+
+# debug / assert
+```c
+#include <stdio.h>
+#include <assert.h>
+
+int main(void)
+{
+    int player_hp = 0;
+
+    assert(player_hp > 0);
+
+    return 0;
+}
+```
+
+
+# debug / exception handle
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int player_weight = 0;
+
+    if (scanf("%d", &player_weight) != 1)
+    {
+        printf("Invalid input.");
+        return 1;
+    }
+
+    printf("Player weight is %d", player_weight);
+
+    return 0;
+}
+```
+
+# debug / log
+```c
+#include <stdio.h>
+#include <time.h>
+
+void game_log(const char *log_type, const char *log_messages)
+{
+    FILE *file = fopen("game.log", "a");
+
+    if (file == NULL)
+    {
+        perror("fopen: ");
+        return;
+    }
+
+    time_t now = time(NULL);
+
+    struct tm *time_info = localtime(&now);
+
+    if (time_info != NULL)
+    {
+        fprintf(file, "[%04d-%02d-%02d %02d:%02d:%02d] ", 
+                time_info->tm_year + 1900,
+                time_info->tm_mon + 1,
+                time_info->tm_mday,
+                time_info->tm_hour,
+                time_info->tm_min,
+                time_info->tm_sec);
+    }
+
+    fprintf(file, "[%s] %s", log_type, log_messages);
+
+    if (fclose(file) == EOF)
+    {
+        perror("fclose: ");
+    }
+}
+
+int main(void)
+{
+
+    game_log("ERROR", "Invalid input.");
+
+    return 0;
+}
+```
+
 
 # The roadmap of Data Structure(but dis is not for today tho.)
 ```c

@@ -1,0 +1,9 @@
+2026-10-19 18:22:40,709 INFO: BMI 管理系統啟動
+2026-10-19 18:23:18,884 INFO: BMI 管理系統啟動
+2026-10-19 18:26:49,255 INFO: 新增學生：姓名=liwei，BMI=22.09，狀態=正常
+2026-10-19 18:29:07,300 INFO: BMI 管理系統啟動
+2026-10-19 18:29:48,291 INFO: 新增學生：姓名=liwei，BMI=24.69，狀態=過重
+2026-10-19 18:30:02,742 INFO: BMI 管理系統啟動
+2026-10-19 18:30:14,481 WARNING: 無效數值輸入：欄位=請輸入身高（公尺，例如 1.70）：，輸入='abc'，原因=could not convert string to float: 'abc'
+2026-10-19 18:30:31,991 WARNING: 無效數值輸入：欄位=請輸入身高（公尺，例如 1.70）：，輸入='abc'，原因=could not convert string to float: 'abc'
+2026-10-19 18:30:48,444 WARNING: 無效數值輸入：欄位=請輸入體重（公斤）：，輸入='abfc'，原因=could not convert string to float: 'abfc'

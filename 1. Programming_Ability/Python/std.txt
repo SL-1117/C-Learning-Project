@@ -1,0 +1,3 @@
+[2026-10-19 22:16:41] [INFO]: Game started
+[2026-10-19 22:16:41] [ERROR]: Invalid input.
+[2026-10-19 22:16:41] [WARNING]: You are attacked!
