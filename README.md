@@ -8,6 +8,7 @@ I put the roadmap here for a pretty long time, finally I can learn it.
 
 I'm gonna js organize and sort out my mind about what I'm going to learn and how I'm gonna do it after finishing all the things I got rn.
 
+Working on controling MCU 7segment by each pin.
 
 # debug / breakpoints  
 ```c
