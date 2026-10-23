@@ -1,9 +1,13 @@
 # Programming-Ability-Project
 
-2026/10/21 Wednesday
+2026/10/23 Friday
 
 # note
 Working on controling MCU 7segment by each pin.
+
+***means completed
+**means almost
+*means a little
 
 ### quest.h quest.c main.c
 quest.h:
@@ -11,7 +15,7 @@ quest.h:
 
 quest.c
 
-# Quest Manager
+# Quest Manager ***
 Linked list
 Accept, complete, remove quests
 
@@ -36,7 +40,7 @@ Hash table
 Find items by ID
 
 
-# Battle History
+# Battle History **
 Stack
 Undo previous actions
 
